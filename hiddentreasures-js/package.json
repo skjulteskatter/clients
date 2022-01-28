@@ -1,5 +1,5 @@
 {
-  "name": "songtreasures-js",
+  "name": "hiddentreasures-js",
   "version": "1.0.0",
   "description": "A JavaScript client for SongTreasures API",
   "main": "index.js",
