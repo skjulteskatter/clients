@@ -3,12 +3,10 @@ import { IBaseDocument } from "../models/baseDocument";
 
 export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument> {
     private _endpoint;
-    private _listEverything;
     private _http;
 
-    constructor(http: Http, endpoint: string, listEverything = false) {
+    constructor(http: Http, endpoint: string) {
         this._endpoint = endpoint;
-        this._listEverything = listEverything;
         this._http = http;
     }
 
