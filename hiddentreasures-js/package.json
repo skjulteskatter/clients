@@ -2,8 +2,10 @@
   "name": "hiddentreasures-js",
   "version": "1.0.0",
   "description": "A JavaScript client for SongTreasures API",
-  "main": "index.js",
+  "main": "dist/",
   "scripts": {
+    "build": "tsc",
+    "start": "tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

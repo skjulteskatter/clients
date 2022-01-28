@@ -7,14 +7,16 @@ export class Cache extends Dexie {
     public contributors!: Table<IContributor>;
     public files!: Table<IMediaFile>;
     public lyrics!: Table<ILyrics>;
+    public lastUpdated!: Table<Date>;
 
     constructor() {
         super("hiddentreasures");
         this.version(1).stores({
-            songs: '++id',
+            songs: '++id, parentId',
+            files: '++id, parentId',
+            lyrics: '++id, parentId',
             contributors: '++id',
-            files: '++id',
-            lyrics: '++id',
+            lastUpdated: '++id',
         });
     }
 }
