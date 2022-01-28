@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A JavaScript client for SongTreasures API",
   "main": "dist/",
+  "types": "dist/index.ts",
   "scripts": {
     "build": "tsc",
     "start": "tsc && node .",
