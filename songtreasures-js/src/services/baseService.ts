@@ -1,4 +1,4 @@
-import { Http } from "../http/http";
+import { Http } from "../http";
 import { IBaseDocument } from "../models/baseDocument";
 
 export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument> {

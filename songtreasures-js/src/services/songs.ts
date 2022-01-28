@@ -1,5 +1,5 @@
 import { ISong, Song } from "..";
-import { Http } from "../http/http";
+import { Http } from "../http";
 import { BaseService } from "./baseService";
 
 export class Songs extends BaseService<Song, ISong> {
