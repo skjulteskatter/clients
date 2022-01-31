@@ -1,11 +1,11 @@
 import { ISong, Song } from "..";
 import cache from "../cache";
-import { Http } from "../http";
+import { Client } from "../client";
 import { BaseService } from "./baseService";
 
 export class Songs extends BaseService<Song, ISong> {
-    constructor(http: Http) {
-        super(http, "Songs", cache.songs);
+    constructor(client: Client) {
+        super(client, "Songs", cache.songs);
     }
 
     protected toModel(item: ISong): Song {

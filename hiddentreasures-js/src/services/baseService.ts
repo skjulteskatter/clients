@@ -1,24 +1,24 @@
 import { Table } from "dexie";
 import cache from "../cache";
-import { Http } from "../http";
+import { Client } from "../client";
 import { IBaseDocument } from "../models/baseDocument";
 
 
 export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument> {
     protected endpoint;
-    private http;
+    private client;
     protected table;
 
     protected httpGet<T>(path = "") {
-        return this.http.get<T>(`api/${this.endpoint}${path}`);
+        return this.client.get<T>(`api/${this.endpoint}${path}`);
     }
     protected httpPost<T>(path = "", content: any = undefined) {
-        return this.http.post<T>(`api/${this.endpoint}${path}`, content);
+        return this.client.post<T>(`api/${this.endpoint}${path}`, content);
     }
 
-    constructor(http: Http, endpoint: string, table: Table<TInterface>) {
+    constructor(client: Client, endpoint: string, table: Table<TInterface>) {
         this.endpoint = endpoint;
-        this.http = http;
+        this.client = client;
 
         this.table = table;
     }
@@ -47,7 +47,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
                 }
             }
 
-            const result = await this.http.get<TInterface[]>(`api/${this.endpoint}` + (updatedAt ? '?updatedAt=' + updatedAt : ""));
+            const result = await this.client.get<TInterface[]>(`api/${this.endpoint}` + (updatedAt ? '?updatedAt=' + updatedAt : ""));
             if (result.length > 0) {
                 await this.table.bulkPut(result);
             }
@@ -74,6 +74,6 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
             return this.toModel(stored);
         }
 
-        return this.toModel(await this.http.get<TInterface>(`api/${this.endpoint}/${id}`));
+        return this.toModel(await this.client.get<TInterface>(`api/${this.endpoint}/${id}`));
     }
 }

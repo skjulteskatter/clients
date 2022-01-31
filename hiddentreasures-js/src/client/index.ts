@@ -1,4 +1,4 @@
-export class Http {
+export class Client {
     private _basePath: string;
     private _apiVersion: string;
 
@@ -22,11 +22,8 @@ export class Http {
             if (response.status >= 200 && response.status < 300) {
                 resolve(response);
             } else if (response.status === 401) {
-                // auth.startLogin();
-                // resolve(null);
                 reject({status: response.status, value: "Unauthorized"});
             } else {
-                // error.response = response;
                 response.text().then(t =>  {
                     reject({status: response.status, value: t});
                 });

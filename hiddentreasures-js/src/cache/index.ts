@@ -1,7 +1,11 @@
 import Dexie, { Table } from "dexie";
-import { ICollection } from "./models/collection";
-import { IContributor } from "./models/contributor";
-import { ILyrics, IMediaFile, ISong } from "./models/songs";
+import { 
+    ICollection, 
+    IContributor, 
+    ISong, 
+    ILyrics, 
+    IMediaFile 
+} from "../models";
 
 export class Cache extends Dexie {
     public collections!: Table<ICollection>;
