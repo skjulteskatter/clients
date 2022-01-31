@@ -1,13 +1,14 @@
 {
   "name": "hiddentreasures-js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A JavaScript client for SongTreasures API",
   "main": "build/",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "tsc && node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "auth": "vsts-npm-auth -config .npmrc"
   },
   "files": [
     "build",
@@ -20,6 +21,7 @@
     "dexie": "^3.2.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.0"
+    "@types/chai": "^4.3.0",
+    "vsts-npm-auth": "^0.41.0"
   }
 }

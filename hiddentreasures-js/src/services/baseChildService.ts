@@ -15,15 +15,17 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
         [parent: string]: T[];
     } = {};
 
-    protected abstract parent(item: TInterface): string;
+    protected abstract parents(item: TInterface): string[];
 
     public override async list() {
         const items = await super.list();
 
         for (const item of items) {
-            const parent = this.parent(item);
-            this.modelsByParent[parent] ??= [];
-            this.modelsByParent[parent].push(item);
+            const parents = this.parents(item);
+            for (const parent of parents) {
+                this.modelsByParent[parent] ??= [];
+                this.modelsByParent[parent].push(item);
+            }
         }
 
         return items;
@@ -35,7 +37,7 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
         }
         
         if (this.models !== null) {
-            this.modelsByParent[parentId] = this.models.filter(i => this.parent(i) === parentId);
+            this.modelsByParent[parentId] = this.models.filter(i => this.parents(i).includes(parentId));
             return this.modelsByParent[parentId];
         }
 
