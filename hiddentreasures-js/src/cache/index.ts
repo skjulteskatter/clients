@@ -13,7 +13,8 @@ export class Cache extends Dexie {
     public songs!: Table<ISong>;
     public contributors!: Table<IContributor>;
     public files!: Table<IMediaFile>;
-    public lyrics!: Table<ILyrics>;
+
+    public lyrics!: Table<ILyrics[]>;
     public lastUpdated!: Table<Date>;
 
     /** Items */

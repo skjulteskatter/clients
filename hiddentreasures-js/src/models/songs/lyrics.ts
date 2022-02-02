@@ -24,27 +24,23 @@ export interface ILyrics extends IBaseDocument {
     language: string;
     content: LyricsContent | LyricsChordContent[] | string;
     format: LyricsFormat;
-    hasChords: boolean;
     originalKey: string;
-    transposedToKey: string | null;
-    secondaryChords: boolean;
+    transposition: number | null;
     notes: string | null;
-    transpositions: {
-        [key: string]: number;
-    };
+    hasChords: boolean;
+    hasNewMelody: boolean;
 }
 
 export class Lyrics extends BaseDocument implements ILyrics {
     public songId;
     public language;
     public format;
-    public hasChords;
     public originalKey;
-    public transposedToKey;
-    public secondaryChords;
+    public transposition;
     public notes;
-    public transpositions;
     public content;
+    public hasChords;
+    public hasNewMelody;
 
     constructor(i: ILyrics) {
         super(i);
@@ -53,10 +49,9 @@ export class Lyrics extends BaseDocument implements ILyrics {
         this.format = i.format;
         this.hasChords = i.hasChords;
         this.originalKey = i.originalKey;
-        this.transposedToKey = i.transposedToKey ?? null;
-        this.secondaryChords = i.secondaryChords;
+        this.transposition = i.transposition ?? null;
+        this.hasNewMelody = i.hasNewMelody;
         this.notes = i.notes ?? null;
-        this.transpositions = i.transpositions;
         this.content = i.content;
     }
 }

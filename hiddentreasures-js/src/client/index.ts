@@ -7,8 +7,8 @@ export class Client {
 
     constructor(options: {
         basePath: string;
-        apiVersion: "3.0" | "4.0",
-        getToken: () => Promise<string>,
+        apiVersion: "4.0";
+        getToken: () => Promise<string>;
         onError?: (error: any) => void;
     }) {
         this._basePath = options.basePath;
