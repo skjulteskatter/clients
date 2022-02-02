@@ -1,12 +1,12 @@
 import { Table } from "dexie";
-import cache from "../cache";
-import { Client } from "../client";
+import cache from "cache";
+import { Client } from "client";
 import { IBaseDocument } from "../models/baseDocument";
 
 
-export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument> {
+export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions = string[]> {
     protected endpoint;
-    private client;
+    protected client;
     protected table;
 
     protected httpGet<T>(path = "") {
@@ -26,6 +26,14 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
     protected abstract toModel(item: TInterface): T;
 
     protected models: T[] | null = null;
+
+    public async retrieve(options: TListOptions) {
+        const models = Array.isArray(options) && this.models ? this.models.filter(i => options.includes(i.id)) : [];
+
+        models.push(...(await this.httpPost<TInterface[]>("", options)).map(i => this.toModel(i)));
+
+        return models;
+    }
 
     public async list() {
         if (!this.models) {

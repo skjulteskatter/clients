@@ -1,4 +1,5 @@
 import Dexie, { Table } from "dexie";
+import { ICategory, ICopyright, ICountry, IGenre, ITheme } from "../../dist";
 import { 
     ICollection, 
     IContributor, 
@@ -15,15 +16,29 @@ export class Cache extends Dexie {
     public lyrics!: Table<ILyrics>;
     public lastUpdated!: Table<Date>;
 
+    /** Items */
+    public categories!: Table<ICategory>;
+    public copyrights!: Table<ICopyright>;
+    public countries!: Table<ICountry>;
+    public genres!: Table<IGenre>;
+    public themes!: Table<ITheme>;
+
     constructor() {
         super("hiddentreasures");
-        this.version(1).stores({
+        const stores: {
+            [key: string]: string;
+        } = {
             songs: '++id, parentId',
             files: '++id, parentId',
             lyrics: '++id, parentId',
             contributors: '++id',
             lastUpdated: '++id',
+        };
+        ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
+            stores[i] = '++id';
         });
+
+        this.version(1).stores(stores);
     }
 }
 

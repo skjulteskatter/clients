@@ -1,9 +1,9 @@
-import { ISong, Song } from "..";
-import cache from "../cache";
-import { Client } from "../client";
-import { BaseChildService } from "./baseChildService";
+import { ISong, Song } from "models";
+import cache from "cache";
+import { Client } from "client";
+import { BaseChildService } from "../baseChildService";
 
-export class Songs extends BaseChildService<Song, ISong> {
+export class SongService extends BaseChildService<Song, ISong> {
     constructor(client: Client) {
         super(client, "Songs", cache.songs);
     }

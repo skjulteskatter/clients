@@ -1,3 +1,4 @@
 export * from "./songs";
-export * from "./collections";
-export * from "./contributors";
+export * from "./collectionService";
+export * from "./contributorService";
+export * from "./items";

@@ -10,7 +10,7 @@ export type ListOptions = {
     orderByDirection?: string;
 }
 
-export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument> extends BaseService<T, TInterface> {
+export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument> extends BaseService<T, TInterface, ListOptions> {
     protected modelsByParent: {
         [parent: string]: T[];
     } = {};
@@ -29,6 +29,10 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
         }
 
         return items;
+    }
+
+    public override async retrieve(options: ListOptions): Promise<T[]> {
+        return (await this.httpPost<TInterface[]>("", options)).map(i => this.toModel(i));
     }
 
     public async childrenOf(parentId: string) {
