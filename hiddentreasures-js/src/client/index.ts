@@ -17,6 +17,10 @@ export class Client {
         this.getToken = options.getToken;
     }
 
+    public async getSettings() {
+        
+    }
+
     public validateResponse(response: Response): Promise<Response> {
         return new Promise((resolve, reject) => {
             if (response.status >= 200 && response.status < 300) {
