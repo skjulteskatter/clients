@@ -1,5 +1,5 @@
 import { IMediaFile, MediaFile } from "../../models";
-import cache from "cache";
+import cache from "../../cache";
 import { SongTreasures } from "../../client";
 import { BaseChildService } from "../baseChildService";
 
