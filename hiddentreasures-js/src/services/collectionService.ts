@@ -1,5 +1,5 @@
 import { Collection, ICollection } from "..";
-import cache from "cache";
+import cache from "../cache";
 import { SongTreasures } from "../client";
 import { BaseService } from "./baseService";
 
