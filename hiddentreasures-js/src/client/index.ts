@@ -1,4 +1,3 @@
-import cache from "cache";
 import { ISettings, Settings } from "models";
 import BaseClient from "./baseClient";
 
@@ -7,13 +6,12 @@ export class SongTreasures extends BaseClient {
 
     public async getSettings(): Promise<Settings> {
         if (!this._settings) {
-            let settings: ISettings | null = await cache.config.get('settings');
-            if (!settings) {
-                settings = await this.get<ISettings>('Session/Settings');
-                await cache.config.add(settings, 'settings');
-            }
-            this._settings = new Settings(settings);
+            this._settings = new Settings(await this.get<ISettings>('Session/Settings'));
         }
         return this._settings;
+    }
+
+    public async setSettings(settings: ISettings) {
+        await this.patch('Session/Settings', settings);
     }
 }
