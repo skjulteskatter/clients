@@ -29,14 +29,14 @@ export class Cache extends Dexie {
     constructor() {
         super("hiddentreasures");
         const stores: {
-            [key: string]: string;
+            [key: string]: string | null;
         } = {
             songs: '++id, parentId',
             files: '++id, parentId',
             lyrics: '++id, parentId',
             contributors: '++id',
             lastUpdated: '++id',
-            config: '',
+            config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
             stores[i] = '++id';
