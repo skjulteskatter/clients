@@ -1,6 +1,6 @@
-import { IMediaFile, MediaFile } from "models";
+import { IMediaFile, MediaFile } from "../../models";
 import cache from "cache";
-import { SongTreasures } from "client";
+import { SongTreasures } from "../../client";
 import { BaseChildService } from "../baseChildService";
 
 export class FileService extends BaseChildService<MediaFile, IMediaFile> {

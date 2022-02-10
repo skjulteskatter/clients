@@ -1,6 +1,6 @@
-import { ILyrics, Lyrics, LyricsFormat } from "models";
-import { SongTreasures } from "client";
-import cache from "cache";
+import { ILyrics, Lyrics, LyricsFormat } from "../../models";
+import { SongTreasures } from "../../client";
+import cache from "../../cache";
 
 export interface IRetrieveLyricsOptions {
     language?: string;

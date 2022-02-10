@@ -1,4 +1,4 @@
-import BaseDocument, { IBaseDocument } from "models/baseDocument";
+import BaseDocument, { IBaseDocument } from "../../models/baseDocument";
 
 export interface ISheet extends IBaseDocument {
     instruments: string[];

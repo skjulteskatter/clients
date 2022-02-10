@@ -1,5 +1,5 @@
-import { SongTreasures } from "client";
-import { ISheet, Sheet } from "models";
+import { SongTreasures } from "../../client";
+import { ISheet, Sheet } from "../../models";
 
 export type FetchSheetOptions = {
     id: string;

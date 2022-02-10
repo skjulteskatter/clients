@@ -1,6 +1,6 @@
-import { Theme, ITheme } from "models";
-import cache from "cache";
-import { SongTreasures } from "client";
+import { Theme, ITheme } from "../../models";
+import cache from "../../cache";
+import { SongTreasures } from "../../client";
 import { BaseService } from "../baseService";
 
 export class ThemeService extends BaseService<Theme, ITheme> {

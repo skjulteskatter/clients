@@ -1,6 +1,6 @@
-import { Country, ICountry } from "models";
-import cache from "cache";
-import { SongTreasures } from "client";
+import { Country, ICountry } from "../../models";
+import cache from "../../cache";
+import { SongTreasures } from "../../client";
 import { BaseService } from "../baseService";
 
 export class CountryService extends BaseService<Country, ICountry> {

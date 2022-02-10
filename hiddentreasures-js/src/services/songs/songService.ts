@@ -1,6 +1,6 @@
-import { ISong, Song } from "models";
-import cache from "cache";
-import { SongTreasures } from "client";
+import { ISong, Song } from "../../models";
+import cache from "../../cache";
+import { SongTreasures } from "../../client";
 import { BaseChildService } from "../baseChildService";
 
 export class SongService extends BaseChildService<Song, ISong> {

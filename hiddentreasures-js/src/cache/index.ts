@@ -1,5 +1,5 @@
 import Dexie, { Table } from "dexie";
-import { ICategory, ICopyright, ICountry, IGenre, ITheme } from "models";
+import { ICategory, ICopyright, ICountry, IGenre, ITheme } from "../models";
 import { 
     ICollection, 
     IContributor, 

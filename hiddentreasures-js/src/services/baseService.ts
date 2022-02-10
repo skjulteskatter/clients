@@ -1,6 +1,6 @@
 import { Table } from "dexie";
 import cache from "cache";
-import { SongTreasures } from "client";
+import { SongTreasures } from "../client";
 import { IBaseDocument } from "../models/baseDocument";
 
 

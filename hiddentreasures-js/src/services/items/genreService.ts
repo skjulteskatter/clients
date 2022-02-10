@@ -1,6 +1,6 @@
-import { Genre, IGenre } from "models";
-import cache from "cache";
-import { SongTreasures } from "client";
+import { Genre, IGenre } from "../../models";
+import cache from "../../cache";
+import { SongTreasures } from "../../client";
 import { BaseService } from "../baseService";
 
 export class GenreService extends BaseService<Genre, IGenre> {

@@ -1,6 +1,6 @@
 import { Contributor, IContributor } from "..";
 import cache from "cache";
-import { SongTreasures } from "client";
+import { SongTreasures } from "../client";
 import { BaseService } from "./baseService";
 
 export class ContributorService extends BaseService<Contributor, IContributor> {

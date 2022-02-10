@@ -1,4 +1,4 @@
-import { ISettings, Settings } from "models";
+import { ISettings, Settings } from "../models";
 import BaseClient from "./baseClient";
 
 export class SongTreasures extends BaseClient {
