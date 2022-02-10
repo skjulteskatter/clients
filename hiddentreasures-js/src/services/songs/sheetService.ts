@@ -1,4 +1,4 @@
-import { Client } from "client";
+import { SongTreasures } from "client";
 
 export type FetchSheetOptions = {
 
@@ -11,7 +11,7 @@ export interface ISheetService {
 export class SheetService implements ISheetService {
     protected client;
 
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         this.client = client;
     }
 }

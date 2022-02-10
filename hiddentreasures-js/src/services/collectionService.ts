@@ -1,10 +1,10 @@
 import { Collection, ICollection } from "..";
 import cache from "cache";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import { BaseService } from "./baseService";
 
 export class CollectionService extends BaseService<Collection, ICollection> {
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         super(client, "Songs", cache.collections);
     }
 

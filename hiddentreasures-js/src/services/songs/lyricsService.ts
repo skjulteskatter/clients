@@ -1,5 +1,5 @@
 import { ILyrics, Lyrics, LyricsFormat } from "models";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import cache from "cache";
 
 export interface IRetrieveLyricsOptions {
@@ -31,7 +31,7 @@ export class LyricsService {
         [key: string]: Lyrics[];
     } = {};
 
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         this.client = client;
         this.table = cache.lyrics;
     }

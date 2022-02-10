@@ -1,10 +1,10 @@
 import { IMediaFile, MediaFile } from "models";
 import cache from "cache";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import { BaseChildService } from "../baseChildService";
 
 export class FileService extends BaseChildService<MediaFile, IMediaFile> {
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         super(client, "MediaFiles", cache.files);
     }
 

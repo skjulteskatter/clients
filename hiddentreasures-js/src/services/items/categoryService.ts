@@ -1,10 +1,10 @@
 import { Category, ICategory } from "models";
 import cache from "cache";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import { BaseService } from "../baseService";
 
 export class CategoryService extends BaseService<Category, ICategory> {
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         super(client, "Songs", cache.categories);
     }
 

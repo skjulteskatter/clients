@@ -1,10 +1,10 @@
 import { Copyright, ICopyright } from "models";
 import cache from "cache";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import { BaseService } from "../baseService";
 
 export class CopyrightService extends BaseService<Copyright, ICopyright> {
-    constructor(client: Client) {
+    constructor(client: SongTreasures) {
         super(client, "Songs", cache.copyrights);
     }
 

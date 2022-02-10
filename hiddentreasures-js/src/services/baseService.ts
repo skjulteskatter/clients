@@ -1,6 +1,6 @@
 import { Table } from "dexie";
 import cache from "cache";
-import { Client } from "client";
+import { SongTreasures } from "client";
 import { IBaseDocument } from "../models/baseDocument";
 
 
@@ -16,7 +16,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.client.post<T>(`api/${this.endpoint}${path}`, content);
     }
 
-    constructor(client: Client, endpoint: string, table: Table<TInterface>) {
+    constructor(client: SongTreasures, endpoint: string, table: Table<TInterface>) {
         this.endpoint = endpoint;
         this.client = client;
 
