@@ -17,11 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chai": "^4.3.6",
     "dexie": "^3.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
+    "chai": "^4.3.6",
     "vsts-npm-auth": "^0.41.0"
   }
 }
