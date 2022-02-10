@@ -44,7 +44,13 @@ export default class BaseClient {
         return await response.arrayBuffer();
     }
 
-    public async get<T>(path: string): Promise<T> {
+    public async get<T>(path: string, params?: {
+        [param: string]: string | number | null;
+    }): Promise<T> {
+        if (params) {
+            path += "?" + Object.entries(params).filter(i => i[1] !== null).map(i => `${i[0]}=${i[1]}`).join("&");
+        }
+
         const result = await this.apifetch(
             path,
             {
