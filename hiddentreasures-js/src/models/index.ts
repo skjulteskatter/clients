@@ -3,4 +3,4 @@ export * from "./songs";
 
 export * from "./contributor";
 export * from "./collection";
-export * from "./user";
+export * from "./users";

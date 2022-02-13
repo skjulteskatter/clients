@@ -1,3 +1,4 @@
+import { PatchOptions } from "models/patchOptions";
 import { ISettings, Settings } from "../models";
 import BaseClient from "./baseClient";
 
@@ -11,7 +12,10 @@ export class SongTreasures extends BaseClient {
         return this._settings;
     }
 
-    public async setSettings(settings: ISettings) {
-        await this.patch('Session/Settings', settings);
+    public async setSettings(options: PatchOptions<ISettings>) {
+        await this.patch('Session/Settings', options);
+        if (this._settings) {
+            options.patch(this._settings);
+        }
     }
 }
