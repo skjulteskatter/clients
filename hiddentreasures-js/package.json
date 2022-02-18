@@ -2,10 +2,10 @@
   "name": "hiddentreasures-js",
   "version": "1.1.5",
   "description": "A JavaScript client for SongTreasures API",
-  "main": "build/bundle.js",
+  "main": "build/",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "webpack build --mode production",
+    "build": "tsc",
     "start": "tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "auth": "vsts-npm-auth -config .npmrc"
