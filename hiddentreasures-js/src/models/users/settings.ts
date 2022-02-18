@@ -1,20 +1,16 @@
-export interface ISettings {
-    languages: string[];
-    defaultLanguage: string;
-    defaultTransposition: string;    
-    defaultTheme: "light" | "dark";
-}
+import BaseObject from "../baseObject";
 
-export class Settings implements ISettings {
-    public languages;
-    public defaultLanguage;
-    public defaultTransposition;
-    public defaultTheme;
+export abstract class ISettings extends BaseObject {
+    public languages!: string[];
+    public defaultLanguage!: string;
+    public defaultTransposition!: string;    
+    public defaultTheme!: "light" | "dark";
 
     constructor(i: ISettings) {
-        this.languages = i.languages;
-        this.defaultLanguage = i.defaultLanguage;
-        this.defaultTransposition = i.defaultTransposition;
-        this.defaultTheme = i.defaultTheme;
+        super(i);
     }
+}
+
+export class Settings extends ISettings {
+
 }
