@@ -1,4 +1,4 @@
-import { Copyright, ICopyright } from "models";
+import { Copyright, ICopyright } from "../../models";
 import cache from "../../cache";
 import { SongTreasures } from "../../client";
 import { BaseService } from "../baseService";

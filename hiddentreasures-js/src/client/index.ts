@@ -1,5 +1,5 @@
-import { IUser, User } from "models/users/user";
-import { PatchOptions } from "models/patchOptions";
+import { IUser, User } from "../models/users/user";
+import { PatchOptions } from "../models/patchOptions";
 import { ISettings, Settings } from "../models";
 import BaseClient from "./baseClient";
 
