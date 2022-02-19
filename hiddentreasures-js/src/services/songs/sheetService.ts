@@ -26,10 +26,10 @@ export class SheetService implements ISheetService {
     } = {};
 
     public async get(id: string): Promise<Sheet> {
-        return this._cache[id] ??= new Sheet(await this.client.get<ISheet>('Sheets/' + id));
+        return this._cache[id] ??= new Sheet(await this.client.get<ISheet>('api/Sheets/' + id));
     }
 
     public async render(options: FetchSheetOptions) {
-        return await this.client.post('Sheets', options);
+        return await this.client.post('api/Sheets', options);
     }
 }
