@@ -1,15 +1,16 @@
-export interface IBaseDocument {
-    id: string;
-    updatedAt: string;
+import BaseObject from "./baseObject";
+
+export abstract class IBaseDocument {
+    public id!: string;
+    public updatedAt!: string;
 }
 
-export class BaseDocument implements IBaseDocument {
-    public id;
-    public updatedAt;
+export class BaseDocument extends BaseObject implements IBaseDocument {
+    public id!: string;
+    public updatedAt!: string;
     
     constructor(i: IBaseDocument) {
-        this.id = i.id;
-        this.updatedAt = i.updatedAt;
+        super(i);
     }
 }
 
