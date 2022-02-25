@@ -25,6 +25,7 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
         const items = await super.list();
 
         for (const item of items) {
+            this.cacheModel(item);
             const parents = this.parents(item);
             for (const parent of parents) {
                 this.modelsByParent[parent] ??= [];
@@ -36,7 +37,7 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
     }
 
     public override async retrieve(options: TListOptions): Promise<T[]> {
-        return (await this.httpPost<TInterface[]>("", options)).map(i => this.toModel(i));
+        return (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
     }
 
     public async childrenOf(parentId: string) {
@@ -53,6 +54,6 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
             parentIds: [parentId]
         };
 
-        return this.modelsByParent[parentId] = (await this.httpPost<TInterface[]>("", options)).map(i => this.toModel(i));
+        return this.modelsByParent[parentId] = (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
     }
 }

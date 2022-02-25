@@ -36,6 +36,10 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
 
     protected models: T[] | null = null;
 
+    protected modelCache: {
+        [key: string]: T;
+    } = {};
+
     public async retrieve(options: TListOptions) {
         const models = Array.isArray(options) && this.models ? this.models.filter(i => options.includes(i.id)) : [];
 
@@ -73,22 +77,39 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
 
             await cache.lastUpdated.put(new Date(), this.endpoint);
 
-            this.models = items.map(i => this.toModel(i));
+            this.models = items.map(i => this.cacheModel(this.toModel(i)));
         }
         return this.models;
     }
 
-    private modelCache: {
-        [key: string]: T;
+    private _willDelete: {
+        [key: string]: boolean;
     } = {};
+    protected cacheModel(model: T) {
+        try {
+            return this.modelCache[model.id] ??= model;
+        } finally {
+            if (!this._willDelete[model.id]) {
+                this._willDelete[model.id] = true;
+                setTimeout(() => {
+                    delete this.modelCache[model.id];
+                    delete this._willDelete[model.id];
+                }, 30000);
+            }
+        }
+    }
+    
+    protected async getOrSetModel(id: string, retrieve: () => Promise<T>) {
+        return this.cacheModel(this.modelCache[id] ??= await retrieve());
+    }
 
     public async get(id: string) {
-        const model = this.models?.find(i => i.id === id);
-
-        if (model) {
-            return model;
-        }
-
-        return this.modelCache[id] ??= this.toModel(await this.table.get(id) ?? await this.client.get<TInterface>(`api/${this.endpoint}/${id}`));
+        return await this.getOrSetModel(id, async () => 
+            this.models?.find(i => i.id === id) 
+            ?? this.toModel(
+                await this.table.get(id) 
+                ?? await this.client.get<TInterface>(`api/${this.endpoint}/${id}`)
+            )
+        );
     }
 }
