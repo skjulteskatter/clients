@@ -78,6 +78,10 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.models;
     }
 
+    private modelCache: {
+        [key: string]: T;
+    } = {};
+
     public async get(id: string) {
         const model = this.models?.find(i => i.id === id);
 
@@ -85,12 +89,6 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
             return model;
         }
 
-        const stored = await this.table.get(id);
-
-        if (stored) {
-            return this.toModel(stored);
-        }
-
-        return this.toModel(await this.client.get<TInterface>(`api/${this.endpoint}/${id}`));
+        return this.modelCache[id] ??= this.toModel(await this.table.get(id) ?? await this.client.get<TInterface>(`api/${this.endpoint}/${id}`));
     }
 }
