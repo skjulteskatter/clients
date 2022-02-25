@@ -9,7 +9,7 @@ export interface IContributorService extends IBaseService<Contributor> {
 
 export class ContributorService extends BaseService<Contributor, IContributor> {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.contributors);
+        super(client, "Contributors", cache.contributors);
     }
 
     protected toModel(item: IContributor): Contributor {

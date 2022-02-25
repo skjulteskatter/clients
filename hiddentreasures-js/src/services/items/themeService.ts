@@ -9,7 +9,7 @@ export interface IThemeService extends IBaseService<Theme> {
 
 export class ThemeService extends BaseService<Theme, ITheme> implements IThemeService {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.themes);
+        super(client, "Themes", cache.themes);
     }
 
     protected toModel(item: ITheme): Theme {

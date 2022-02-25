@@ -9,7 +9,7 @@ export interface ICountryService extends IBaseService<Country> {
 
 export class CountryService extends BaseService<Country, ICountry> implements ICountryService {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.countries);
+        super(client, "Countries", cache.countries);
     }
 
     protected toModel(item: ICountry): Country {

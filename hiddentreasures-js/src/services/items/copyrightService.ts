@@ -9,7 +9,7 @@ export interface ICopyrightService extends IBaseService<Copyright> {
 
 export class CopyrightService extends BaseService<Copyright, ICopyright> implements ICopyrightService {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.copyrights);
+        super(client, "Copyrights", cache.copyrights);
     }
 
     protected toModel(item: ICopyright): Copyright {

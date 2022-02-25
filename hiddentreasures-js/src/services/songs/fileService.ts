@@ -7,7 +7,7 @@ export interface IFileService extends IBaseChildService<IMediaFile> {}
 
 export class FileService extends BaseChildService<MediaFile, IMediaFile> implements IFileService {
     constructor(client: SongTreasures) {
-        super(client, "MediaFiles", cache.files);
+        super(client, "Files", cache.files);
     }
 
     protected toModel(item: IMediaFile): MediaFile {

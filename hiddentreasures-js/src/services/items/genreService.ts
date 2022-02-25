@@ -9,7 +9,7 @@ export interface IGenreService extends IBaseService<Genre> {
 
 export class GenreService extends BaseService<Genre, IGenre> implements IGenreService {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.genres);
+        super(client, "Genres", cache.genres);
     }
 
     protected toModel(item: IGenre): Genre {

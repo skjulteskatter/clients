@@ -9,7 +9,7 @@ export interface ICategoryService extends IBaseService<Category> {
 
 export class CategoryService extends BaseService<Category, ICategory> implements ICategoryService {
     constructor(client: SongTreasures) {
-        super(client, "Songs", cache.categories);
+        super(client, "Categories", cache.categories);
     }
 
     protected toModel(item: ICategory): Category {
