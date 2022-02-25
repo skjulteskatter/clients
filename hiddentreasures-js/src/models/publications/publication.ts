@@ -1,7 +1,8 @@
+import { IPublicationService } from "../../services/publications/publicationService";
 import BaseDocument from "../baseDocument";
 import { ILocaleDictionary, LocaleDictionary } from "../localeDictionary";
 
-export abstract class IPublication extends BaseDocument {
+export abstract class IPublication extends BaseDocument<IPublicationService> {
     public collectionId!: string;
     public datePublished!: string;
     public title!: string;
@@ -14,8 +15,8 @@ export abstract class IPublication extends BaseDocument {
 export class Publication extends IPublication {
     public override key: LocaleDictionary
 
-    constructor(i: IPublication) {
-        super(i);
+    constructor(i: IPublication, s: IPublicationService) {
+        super(i, s);
         this.key = new LocaleDictionary(i.key);
     }
 }

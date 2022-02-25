@@ -1,7 +1,9 @@
 import { IPublication, Publication } from "../../models";
 import cache from "../../cache";
 import { SongTreasures } from "../../client";
-import { BaseChildService } from "../baseChildService";
+import { BaseChildService, IBaseChildService } from "../baseChildService";
+
+export interface IPublicationService extends IBaseChildService<Publication> {}
 
 export class PublicationService extends BaseChildService<Publication, IPublication> {
     constructor(client: SongTreasures) {
@@ -9,10 +11,10 @@ export class PublicationService extends BaseChildService<Publication, IPublicati
     }
 
     protected toModel(item: IPublication): Publication {
-        return new Publication(item);
+        return new Publication(item, this);
     }
 
     protected parents(item: IPublication): string[] {
-        return Object.keys(item.collections);
+        return [item.collectionId];
     }
 }
