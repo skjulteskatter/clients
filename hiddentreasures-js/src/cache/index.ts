@@ -1,18 +1,14 @@
 import Dexie, { Table } from "dexie";
-import { ICategory, ICopyright, ICountry, IGenre, ITheme } from "../models";
-import { 
-    ICollection, 
-    IContributor, 
-    ISong, 
-    ILyrics, 
-    IMediaFile 
-} from "../models";
+import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
 
 export class Cache extends Dexie {
     public collections!: Table<ICollection>;
     public songs!: Table<ISong>;
     public contributors!: Table<IContributor>;
     public files!: Table<IMediaFile>;
+
+    public publications!: Table<IPublication>;
+    public articles!: Table<IArticle>;
 
     public lyrics!: Table<ILyrics[]>;
     public lastUpdated!: Table<Date>;
@@ -36,6 +32,8 @@ export class Cache extends Dexie {
             lyrics: '++id, parentId',
             contributors: '++id',
             lastUpdated: '++id',
+            articles: '++id',
+            publications: '++id',
             config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
