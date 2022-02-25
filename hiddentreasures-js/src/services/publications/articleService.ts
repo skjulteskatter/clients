@@ -1,11 +1,15 @@
 import { IArticle, Article } from "../../models";
 import cache from "../../cache";
 import { SongTreasures } from "../../client";
-import { BaseChildService, IBaseChildService } from "../baseChildService";
+import { BaseChildService, IBaseChildService, ListOptions } from "../baseChildService";
+
+export type ArticleListOptions = ListOptions & {
+    withContent: boolean;
+}
 
 export interface IArticleService extends IBaseChildService<Article> {}
 
-export class ArticleService extends BaseChildService<Article, IArticle> implements IArticleService {
+export class ArticleService extends BaseChildService<Article, IArticle, ArticleListOptions> implements IArticleService {
     constructor(client: SongTreasures) {
         super(client, "Articles", cache.articles);
     }
