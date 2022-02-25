@@ -1,5 +1,6 @@
 import { SongTreasures } from "../../client";
 import { ISheet, Sheet } from "../../models";
+import { IService } from "../baseService";
 
 export type FetchSheetOptions = {
     id: string;
@@ -10,8 +11,9 @@ export type FetchSheetOptions = {
     instruments?: string[];
 }
 
-export interface ISheetService {
-
+export interface ISheetService extends IService {
+    get(id: string): Promise<Sheet>;
+    render(options: FetchSheetOptions): Promise<string[]>;
 }
 
 export class SheetService implements ISheetService {
@@ -25,11 +27,11 @@ export class SheetService implements ISheetService {
         [key: string]: Sheet;
     } = {};
 
-    public async get(id: string): Promise<Sheet> {
+    public async get(id: string) {
         return this._cache[id] ??= new Sheet(await this.client.get<ISheet>('api/Sheets/' + id));
     }
 
     public async render(options: FetchSheetOptions) {
-        return await this.client.post('api/Sheets', options);
+        return await this.client.post<string[]>('api/Sheets', options);
     }
 }

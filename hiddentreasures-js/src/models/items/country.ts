@@ -1,3 +1,4 @@
+import { ICountryService } from "../..";
 import { BaseItem, IBaseItem } from "./baseItem";
 
 export interface ICountry extends IBaseItem {
@@ -5,12 +6,12 @@ export interface ICountry extends IBaseItem {
     language: string;
 }
 
-export class Country extends BaseItem implements ICountry {
+export class Country extends BaseItem<ICountryService> implements ICountry {
     public code;
     public language;
 
-    constructor(i: ICountry) {
-        super(i);
+    constructor(i: ICountry, s: ICountryService) {
+        super(i, s);
         this.code = i.code;
         this.language = i.language;
     }

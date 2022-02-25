@@ -1,3 +1,4 @@
+import { ICollectionService } from "..";
 import BaseDocument, { IBaseDocument } from "./baseDocument";
 
 export interface ICollection extends IBaseDocument {
@@ -15,7 +16,7 @@ export interface ICollection extends IBaseDocument {
     owned: boolean;
 }
 
-export class Collection extends BaseDocument implements ICollection {
+export class Collection extends BaseDocument<ICollectionService> implements ICollection {
     public priority;
     public type;
     public defaultType;
@@ -27,8 +28,8 @@ export class Collection extends BaseDocument implements ICollection {
     public image;
     public owned;
 
-    constructor(i: ICollection) {
-        super(i);
+    constructor(i: ICollection, service: ICollectionService) {
+        super(i, service);
         this.priority = i.priority;
         this.type = i.type;
         this.defaultType = i.defaultType ?? null;

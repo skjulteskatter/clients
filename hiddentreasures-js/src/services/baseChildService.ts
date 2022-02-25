@@ -1,5 +1,5 @@
 import { IBaseDocument } from "../models/baseDocument";
-import { BaseService } from "./baseService";
+import { BaseService, IBaseService } from "./baseService";
 
 export type ListOptions = {
     itemIds?: string[];
@@ -10,7 +10,11 @@ export type ListOptions = {
     orderByDirection?: string;
 }
 
-export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument> extends BaseService<T, TInterface, ListOptions> {
+export interface IBaseChildService<T> extends IBaseService<T, ListOptions> {
+    childrenOf(parentId: string): Promise<T[]>
+}
+
+export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument> extends BaseService<T, TInterface, ListOptions> implements IBaseChildService<T> {
     protected modelsByParent: {
         [parent: string]: T[];
     } = {};

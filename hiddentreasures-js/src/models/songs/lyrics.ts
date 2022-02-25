@@ -1,3 +1,4 @@
+import { ILyricsService } from "../..";
 import BaseDocument, { IBaseDocument } from "../baseDocument";
 
 export type LyricsFormat = "json" | "performance";
@@ -31,27 +32,18 @@ export interface ILyrics extends IBaseDocument {
     hasNewMelody: boolean;
 }
 
-export class Lyrics extends BaseDocument implements ILyrics {
-    public songId;
-    public language;
-    public format;
-    public originalKey;
-    public transposition;
-    public notes;
-    public content;
-    public hasChords;
-    public hasNewMelody;
+export class Lyrics extends BaseDocument<ILyricsService> implements ILyrics {
+    public songId!: string;
+    public language!: string;
+    public format!: LyricsFormat;
+    public originalKey!: string;
+    public transposition!: number | null;
+    public notes!: string | null;
+    public content!: LyricsContent | LyricsChordContent[] | string;
+    public hasChords!: boolean;
+    public hasNewMelody!: boolean;
 
-    constructor(i: ILyrics) {
-        super(i);
-        this.songId = i.songId;
-        this.language = i.language;
-        this.format = i.format;
-        this.hasChords = i.hasChords;
-        this.originalKey = i.originalKey;
-        this.transposition = i.transposition ?? null;
-        this.hasNewMelody = i.hasNewMelody;
-        this.notes = i.notes ?? null;
-        this.content = i.content;
+    constructor(i: ILyrics, s: ILyricsService) {
+        super(i, s);
     }
 }

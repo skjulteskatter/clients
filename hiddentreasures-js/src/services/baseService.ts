@@ -3,8 +3,17 @@ import cache from "../cache";
 import { SongTreasures } from "../client";
 import { IBaseDocument } from "../models/baseDocument";
 
+export interface IService {
+    
+}
 
-export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions = string[]> {
+export interface IBaseService<T, TListOptions = string[]> extends IService {
+    retrieve(options: TListOptions): Promise<T[]>;
+    list(): Promise<T[]>;
+    get(id: string): Promise<T>;
+}
+
+export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions = string[]> implements IBaseService<T, TListOptions> {
     protected endpoint;
     protected client;
     protected table;

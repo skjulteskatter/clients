@@ -1,7 +1,9 @@
 import { ISong, Song } from "../../models";
 import cache from "../../cache";
 import { SongTreasures } from "../../client";
-import { BaseChildService } from "../baseChildService";
+import { BaseChildService, IBaseChildService } from "../baseChildService";
+
+export interface ISongService extends IBaseChildService<Song> {};
 
 export class SongService extends BaseChildService<Song, ISong> {
     constructor(client: SongTreasures) {
@@ -9,7 +11,7 @@ export class SongService extends BaseChildService<Song, ISong> {
     }
 
     protected toModel(item: ISong): Song {
-        return new Song(item);
+        return new Song(item, this);
     }
 
     protected parents(item: ISong): string[] {

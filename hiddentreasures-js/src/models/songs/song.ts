@@ -1,3 +1,4 @@
+import { ISongService } from "../..";
 import BaseDocument, { IBaseDocument } from "../baseDocument";
 import Participant, { IParticipant } from "./participant";
 
@@ -33,47 +34,31 @@ export interface ISong extends IBaseDocument {
     participants: IParticipant[];
 }
 
-export class Song extends BaseDocument implements ISong {
-    public collections;
-    public type;
-    public available;
-    public title;
-    public description;
-    public originalKey;
-    public hasLyrics;
-    public hasChords;
-    public yearWritten;
-    public yearComposed;
-    public defaultTempo;
-    public image;
-    public themeIds;
-    public categoryIds;
-    public genreIds;
-    public origins;
-    public copyrights;
-    public newMelodies;
+export class Song extends BaseDocument<ISongService> implements ISong {
+    public collections: {
+        [id: string]: number;
+    } = {};
+    public type!: SongType;
+    public available!: boolean;
+    public title!: string;
+    public description!: string | null;
+    public originalKey!: string | null;
+    public hasLyrics!: boolean;
+    public hasChords!: boolean | null;
+    public yearWritten!: number | null;
+    public yearComposed!: number | null;
+    public defaultTempo!: number | null;
+    public image!: string | null;
+    public themeIds!: string[];
+    public categoryIds!: string[];
+    public genreIds!: string[];
+    public origins!: SongReference[];
+    public copyrights!: SongReference[];
+    public newMelodies!: string[];
     public participants;
 
-    constructor(i: ISong) {
-        super(i);
-        this.collections = i.collections;
-        this.type = i.type;
-        this.available = i.available;
-        this.title = i.title ?? null;
-        this.description = i.description ?? null;
-        this.originalKey = i.originalKey ?? null;
-        this.hasLyrics = i.hasLyrics;
-        this.hasChords = i.hasChords ?? null;
-        this.yearWritten = i.yearWritten ?? null;
-        this.yearComposed = i.yearComposed ?? null;
-        this.defaultTempo = i.defaultTempo ?? null;
-        this.image = i.image ?? null;
-        this.themeIds = i.themeIds ?? null;
-        this.categoryIds = i.categoryIds;
-        this.genreIds = i.genreIds;
-        this.origins = i.origins;
-        this.copyrights = i.copyrights;
-        this.newMelodies = i.newMelodies;
+    constructor(i: ISong, s: ISongService) {
+        super(i, s);
         this.participants = i.participants.map(i => new Participant(i));
     }
 }

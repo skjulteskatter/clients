@@ -1,14 +1,15 @@
-import BaseDocument, { IBaseDocument } from "../../models/baseDocument";
+import BaseObject from "../baseObject";
 
-export interface ISheet extends IBaseDocument {
+export interface ISheet {
+    id: string;
     instruments: string[];
 }
 
-export class Sheet extends BaseDocument implements ISheet {
-    public instruments;
+export class Sheet extends BaseObject implements ISheet {
+    public id!: string;
+    public instruments!: string[];
 
     constructor(i: ISheet) {
         super(i);
-        this.instruments = i.instruments;
     } 
 }
