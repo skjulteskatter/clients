@@ -7,7 +7,7 @@ export type ArticleListOptions = ListOptions & {
     withContent: boolean;
 }
 
-export interface IArticleService extends IBaseChildService<Article> {}
+export interface IArticleService extends IBaseChildService<Article, ArticleListOptions> {}
 
 export class ArticleService extends BaseChildService<Article, IArticle, ArticleListOptions> implements IArticleService {
     constructor(client: SongTreasures) {
