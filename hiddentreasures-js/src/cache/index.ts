@@ -122,11 +122,11 @@ export class DexieTables extends Dexie {
     }
 }
 
-const dexieTables = new DexieTables();
+let dexieTables: DexieTables | null = null;
 
 export function getCache<S extends keyof Stores>(store: S): ICache<Stores[S]> {
     try {
-        indexedDB.open(store);
+        dexieTables ??= new DexieTables();
         return new DexieCache(dexieTables[store]);
     } catch {
         return new MemoryCache();
