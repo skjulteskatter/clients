@@ -1,7 +1,7 @@
 import { ILyrics, Lyrics, LyricsFormat } from "../../models";
 import { SongTreasures } from "../../client";
-import cache from "../../cache";
 import { IService } from "../baseService";
+import { getCache } from "../../cache";
 
 export interface IRetrieveLyricsOptions {
     language?: string;
@@ -39,7 +39,7 @@ export class LyricsService {
 
     constructor(client: SongTreasures) {
         this.client = client;
-        this.table = cache.lyrics;
+        this.table = getCache("lyrics");
     }
 
     public async get(songId: string, options: RetrieveLyricsOptions): Promise<Lyrics> {

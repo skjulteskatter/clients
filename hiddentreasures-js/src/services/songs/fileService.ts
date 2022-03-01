@@ -1,13 +1,13 @@
 import { IMediaFile, MediaFile } from "../../models";
-import cache from "../../cache";
 import { SongTreasures } from "../../client";
 import { BaseChildService, IBaseChildService } from "../baseChildService";
+import { getCache } from "../../cache";
 
 export interface IFileService extends IBaseChildService<IMediaFile> {}
 
 export class FileService extends BaseChildService<MediaFile, IMediaFile> implements IFileService {
     constructor(client: SongTreasures) {
-        super(client, "Files", cache.files);
+        super(client, "Files", getCache("files"));
     }
 
     protected toModel(item: IMediaFile): MediaFile {

@@ -1,5 +1,5 @@
 import { Category, ICategory } from "../../models";
-import cache from "../../cache";
+import { getCache } from "../../cache";
 import { SongTreasures } from "../../client";
 import { BaseService, IBaseService } from "../baseService";
 
@@ -9,7 +9,7 @@ export interface ICategoryService extends IBaseService<Category> {
 
 export class CategoryService extends BaseService<Category, ICategory> implements ICategoryService {
     constructor(client: SongTreasures) {
-        super(client, "Categories", cache.categories);
+        super(client, "Categories", getCache("categories"));
     }
 
     protected toModel(item: ICategory): Category {

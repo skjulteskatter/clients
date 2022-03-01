@@ -1,5 +1,4 @@
-import { Table } from "dexie";
-import cache from "../cache";
+import { getCache, ICache } from "../cache";
 import { SongTreasures } from "../client";
 import { IBaseDocument } from "../models/baseDocument";
 
@@ -16,7 +15,7 @@ export interface IBaseService<T, TListOptions = string[]> extends IService {
 export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions = string[]> implements IBaseService<T, TListOptions> {
     protected endpoint;
     protected client;
-    protected table;
+    protected cache;
 
     protected httpGet<T>(path = "") {
         return this.client.get<T>(`api/${this.endpoint}${path}`);
@@ -25,11 +24,11 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.client.post<T>(`api/${this.endpoint}${path}`, content);
     }
 
-    constructor(client: SongTreasures, endpoint: string, table: Table<TInterface>) {
+    constructor(client: SongTreasures, endpoint: string, cache: ICache<TInterface>) {
         this.endpoint = endpoint;
         this.client = client;
 
-        this.table = table;
+        this.cache = cache;
     }
     
     protected abstract toModel(item: TInterface): T;
@@ -50,7 +49,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
 
     public async list() {
         if (!this.models) {
-            const lastUpdated = await cache.lastUpdated.get(this.endpoint);
+            const lastUpdated = await getCache("lastUpdated").get(this.endpoint);
 
             const items: TInterface[] = [];
 
@@ -58,7 +57,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
             date.setSeconds(date.getSeconds() - 300);
 
             if (lastUpdated && lastUpdated > date) {
-                items.push(...await this.table.toArray());
+                items.push(...await this.cache.list());
             }
 
             let updatedAt: string | null = null;
@@ -70,12 +69,12 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
 
             const result = await this.client.get<TInterface[]>(`api/${this.endpoint}` + (updatedAt ? '?updatedAt=' + updatedAt : ""));
             if (result.length > 0) {
-                await this.table.bulkPut(result);
+                await this.cache.setAll(result);
             }
 
             items.push(...result);
 
-            await cache.lastUpdated.put(new Date(), this.endpoint);
+            await getCache("lastUpdated").set(new Date(), this.endpoint);
 
             this.models = items.map(i => this.cacheModel(this.toModel(i)));
         }
@@ -107,7 +106,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return await this.getOrSetModel(id, async () => 
             this.models?.find(i => i.id === id) 
             ?? this.toModel(
-                await this.table.get(id) 
+                await this.cache.get(id) 
                 ?? await this.client.get<TInterface>(`api/${this.endpoint}/${id}`)
             )
         );
