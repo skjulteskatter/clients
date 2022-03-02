@@ -1,18 +1,23 @@
+import "isomorphic-fetch";
+
 export default class BaseClient {
     private _basePath: string;
     private _apiVersion: string;
+    private _debug;
 
     protected onError?: (error: any) => void;
     protected getToken: () => Promise<string>;
 
     constructor(options: {
-        basePath: string;
-        apiVersion: "4.0";
         getToken: () => Promise<string>;
+        basePath?: string;
+        apiVersion?: "4.0";
+        debug?: boolean;
         onError?: (error: any) => void;
     }) {
-        this._basePath = options.basePath;
-        this._apiVersion = options.apiVersion;
+        this._basePath = options.basePath ?? "https://api.songtreasures.app/";
+        this._apiVersion = options.apiVersion ?? "4.0";
+        this._debug = options.debug ?? false;
         this.onError = options.onError;
         this.getToken = options.getToken;
     }
@@ -34,6 +39,9 @@ export default class BaseClient {
     public async parseJson(response: Response, json = true) {
         if (json) {
             const result = await response.text();
+            if (this._debug) {
+                console.log("Response code: " + response.status + " " + response.statusText);
+            }
             try {
                 return JSON.parse(result);
             }
@@ -147,6 +155,8 @@ export default class BaseClient {
     }
 
     public async apifetch(path: string, options: RequestInit, bypassAuth = false, json = true) {
+        if (this._debug) console.log((options.method ?? "REQ") + " | " + path);
+
         path = `${this._basePath}${path}`;
         const token = this._token ?? await this.getToken();
         if (!token && !bypassAuth) throw new Error("No Authorization token available " + path);
@@ -159,10 +169,9 @@ export default class BaseClient {
         const o = Object.assign(
             options, {headers});
         try {
-            const result = await fetch(path, o)
+            return await fetch(path, o)
                 .then(this.validateResponse)
                 .then((r) => this.parseJson(r, json));
-            return result;
         }
         catch (e) {
             const error = e as any;

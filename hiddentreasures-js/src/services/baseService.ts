@@ -1,5 +1,5 @@
 import { getCache, ICache } from "../cache";
-import { SongTreasures } from "../client";
+import { Client } from "../client";
 import { IBaseDocument } from "../models/baseDocument";
 
 export interface IService {
@@ -24,7 +24,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.client.post<T>(`api/${this.endpoint}${path}`, content);
     }
 
-    constructor(client: SongTreasures, endpoint: string, cache: ICache<TInterface>) {
+    constructor(client: Client, endpoint: string, cache: ICache<TInterface>) {
         this.endpoint = endpoint;
         this.client = client;
 

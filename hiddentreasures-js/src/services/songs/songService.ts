@@ -1,12 +1,12 @@
 import { ISong, Song } from "../../models";
 import { getCache } from "../../cache";
-import { SongTreasures } from "../../client";
+import { Client } from "../../client";
 import { BaseChildService, IBaseChildService } from "../baseChildService";
 
 export interface ISongService extends IBaseChildService<Song> {};
 
 export class SongService extends BaseChildService<Song, ISong> {
-    constructor(client: SongTreasures) {
+    constructor(client: Client) {
         super(client, "Songs", getCache("songs"));
     }
 

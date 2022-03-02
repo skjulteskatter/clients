@@ -1,5 +1,5 @@
 import { ILyrics, Lyrics, LyricsFormat } from "../../models";
-import { SongTreasures } from "../../client";
+import { Client } from "../../client";
 import { IService } from "../baseService";
 import { getCache } from "../../cache";
 
@@ -37,7 +37,7 @@ export class LyricsService {
         [key: string]: Lyrics[];
     } = {};
 
-    constructor(client: SongTreasures) {
+    constructor(client: Client) {
         this.client = client;
         this.table = getCache("lyrics");
     }

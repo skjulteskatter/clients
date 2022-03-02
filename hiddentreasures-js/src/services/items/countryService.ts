@@ -1,6 +1,6 @@
 import { Country, ICountry } from "../../models";
 import { getCache } from "../../cache";
-import { SongTreasures } from "../../client";
+import { Client } from "../../client";
 import { BaseService, IBaseService } from "../baseService";
 
 export interface ICountryService extends IBaseService<Country> {
@@ -8,7 +8,7 @@ export interface ICountryService extends IBaseService<Country> {
 }
 
 export class CountryService extends BaseService<Country, ICountry> implements ICountryService {
-    constructor(client: SongTreasures) {
+    constructor(client: Client) {
         super(client, "Countries", getCache("countries"));
     }
 

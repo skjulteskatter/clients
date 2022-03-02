@@ -5,6 +5,7 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "./build",
+    "sourceRoot": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -15,5 +16,8 @@
     "noImplicitOverride": true,
     "skipLibCheck": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

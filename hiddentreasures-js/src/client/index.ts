@@ -3,7 +3,7 @@ import { PatchOptions } from "../models/patchOptions";
 import { ISettings, Settings } from "../models";
 import BaseClient from "./baseClient";
 
-export class SongTreasures extends BaseClient {
+export class Client extends BaseClient {
     private _settings: Settings | null = null;
 
     public async getSettings(): Promise<Settings> {

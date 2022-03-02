@@ -1,5 +1,5 @@
 import { Genre, IGenre } from "../../models";
-import { SongTreasures } from "../../client";
+import { Client } from "../../client";
 import { BaseService, IBaseService } from "../baseService";
 import { getCache } from "../../cache";
 
@@ -8,7 +8,7 @@ export interface IGenreService extends IBaseService<Genre> {
 }
 
 export class GenreService extends BaseService<Genre, IGenre> implements IGenreService {
-    constructor(client: SongTreasures) {
+    constructor(client: Client) {
         super(client, "Genres", getCache("genres"));
     }
 

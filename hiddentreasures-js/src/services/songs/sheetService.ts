@@ -1,4 +1,4 @@
-import { SongTreasures } from "../../client";
+import { Client } from "../../client";
 import { ISheet, Sheet } from "../../models";
 import { IService } from "../baseService";
 
@@ -19,7 +19,7 @@ export interface ISheetService extends IService {
 export class SheetService implements ISheetService {
     protected client;
 
-    constructor(client: SongTreasures) {
+    constructor(client: Client) {
         this.client = client;
     }
 
