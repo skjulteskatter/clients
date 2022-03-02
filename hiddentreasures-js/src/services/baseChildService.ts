@@ -1,20 +1,16 @@
 import { IBaseDocument } from "../models/baseDocument";
-import { BaseService, IBaseService } from "./baseService";
+import { BaseService, IBaseService, ListOptions } from "./baseService";
 
-export type ListOptions = {
-    itemIds?: string[];
+export type ChildListOptions = ListOptions & {
     parentIds?: string[];
-    limit?: number;
-    skip?: number;
-    orderBy?: string;
-    orderByDirection?: string;
 }
 
-export interface IBaseChildService<T, TListOptions extends ListOptions = ListOptions> extends IBaseService<T, TListOptions> {
-    childrenOf(parentId: string): Promise<T[]>
+export interface IBaseChildService<T, TListOptions extends ChildListOptions = ChildListOptions> extends IBaseService<T, TListOptions> {
+    childrenOf(parentId: string): Promise<T[]>;
+    retrieve(options: TListOptions): Promise<T[]>;
 }
 
-export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ListOptions = ListOptions> extends BaseService<T, TInterface, ListOptions> implements IBaseChildService<T, TListOptions> {
+export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ChildListOptions = ChildListOptions> extends BaseService<T, TInterface, TListOptions> implements IBaseChildService<T, TListOptions> {
     protected modelsByParent: {
         [parent: string]: T[];
     } = {};
@@ -36,10 +32,6 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
         return items;
     }
 
-    public override async retrieve(options: TListOptions): Promise<T[]> {
-        return (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
-    }
-
     public async childrenOf(parentId: string) {
         if (this.modelsByParent[parentId]) {
             return this.modelsByParent[parentId];
@@ -50,7 +42,7 @@ export abstract class BaseChildService<T extends TInterface, TInterface extends 
             return this.modelsByParent[parentId];
         }
 
-        const options: ListOptions = {
+        const options: ChildListOptions = {
             parentIds: [parentId]
         };
 

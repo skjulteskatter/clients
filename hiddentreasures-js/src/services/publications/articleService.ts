@@ -1,9 +1,9 @@
 import { IArticle, Article } from "../../models";
 import { Client } from "../../client";
-import { BaseChildService, IBaseChildService, ListOptions } from "../baseChildService";
+import { BaseChildService, IBaseChildService, ChildListOptions } from "../baseChildService";
 import { getCache } from "../../cache";
 
-export type ArticleListOptions = ListOptions & {
+export type ArticleListOptions = ChildListOptions & {
     withContent: boolean;
 }
 

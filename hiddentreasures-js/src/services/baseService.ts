@@ -6,13 +6,21 @@ export interface IService {
     
 }
 
-export interface IBaseService<T, TListOptions = string[]> extends IService {
+export type ListOptions = {
+    itemIds?: string[];
+    limit?: number;
+    skip?: number;
+    orderBy?: string;
+    orderByDirection?: string;
+}
+
+export interface IBaseService<T, TListOptions extends ListOptions = ListOptions> extends IService {
     retrieve(options: TListOptions): Promise<T[]>;
     list(): Promise<T[]>;
     get(id: string): Promise<T>;
 }
 
-export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions = string[]> implements IBaseService<T, TListOptions> {
+export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ListOptions = ListOptions> implements IBaseService<T, TListOptions> {
     protected endpoint;
     protected client;
     protected cache;
@@ -38,13 +46,9 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
     protected modelCache: {
         [key: string]: T;
     } = {};
-
-    public async retrieve(options: TListOptions) {
-        const models = Array.isArray(options) && this.models ? this.models.filter(i => options.includes(i.id)) : [];
-
-        models.push(...(await this.httpPost<TInterface[]>("", options)).map(i => this.toModel(i)));
-
-        return models;
+    
+    public async retrieve(options: TListOptions): Promise<T[]> {
+        return (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
     }
 
     public async list() {
@@ -97,18 +101,42 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
             }
         }
     }
+
+    private static retrieving: {
+        [model: string]: boolean;
+    } = {};
+    private static retrieveModels: {
+        [model: string]: string[] | null;
+    } = {};
     
-    protected async getOrSetModel(id: string, retrieve: () => Promise<T>) {
-        return this.cacheModel(this.modelCache[id] ??= await retrieve());
+    protected async getOrSetModel(id: string) {
+        const getModel = async () => {
+            const retrieveModels = BaseService.retrieveModels[this.endpoint] ??= [];
+            retrieveModels.push(id);
+            await new Promise(r => setTimeout(r, 10));
+            if (retrieveModels !== null && !BaseService.retrieving[this.endpoint]) {
+                const itemIds = retrieveModels;
+                BaseService.retrieveModels[this.endpoint] = null;
+                BaseService.retrieving[this.endpoint] = true;
+                if (itemIds.length === 1) {
+                    this.cacheModel(this.toModel(await this.httpGet<TInterface>(id)));
+                } else {
+                    await this.retrieve({
+                        itemIds,
+                    } as TListOptions);
+                }
+                BaseService.retrieving[this.endpoint] = false;
+            } else {
+                while(BaseService.retrieving[this.endpoint]) {
+                    await new Promise(r => setTimeout(r, 10));
+                }
+            }
+            return this.modelCache[id];
+        };
+        return this.modelCache[id] ?? await getModel();
     }
 
     public async get(id: string) {
-        return await this.getOrSetModel(id, async () => 
-            this.models?.find(i => i.id === id) 
-            ?? this.toModel(
-                await this.cache.get(id) 
-                ?? await this.client.get<TInterface>(`api/${this.endpoint}/${id}`)
-            )
-        );
+        return await this.getOrSetModel(id);
     }
 }
