@@ -1,11 +1,11 @@
-import { SongService, Client, ContributorService, CollectionService } from "../build";
+import { SongService, Client, ContributorService, CollectionService, NotificationService } from "../build";
 
 const token = process.argv[2];
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 const client = new Client({
     onError: (r) => console.log(r),
-    basePath: "https://localhost:44301/",
+    basePath: "https://api.songtreasures.app:443/",
     debug: true,
     getToken: async() => token,
 });
@@ -40,3 +40,7 @@ const collectionService = new CollectionService(client);
 ].forEach(async (id) => {
     console.log((await collectionService.get(id)).title);
 })
+
+const notificationService = new NotificationService(client);
+
+notificationService.list().then(l => console.log(l));
