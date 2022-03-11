@@ -26,7 +26,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
     protected cache;
 
     protected httpGet<T>(path = "") {
-        return this.client.get<T>(`api/${this.endpoint}${path}`);
+        return this.client.get<T>(`api/${this.endpoint}${path ? "/" + path : ""}`);
     }
     protected httpPost<T>(path = "", content: any = undefined) {
         return this.client.post<T>(`api/${this.endpoint}${path}`, content);
