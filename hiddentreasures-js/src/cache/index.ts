@@ -1,5 +1,6 @@
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
 import { IBaseDocument } from "../models/baseDocument";
+import { INotification } from "../models/notification";
 
 export interface ICache<T extends IBaseDocument> {
     set: (model: T, key?: string) => Promise<void>;
@@ -36,6 +37,7 @@ export class MemoryCache<T extends IBaseDocument> implements ICache<T> {
 }
 
 export interface Stores {
+    notifications: INotification;
     collections: ICollection;
     songs: ISong;
     contributors: IContributor;

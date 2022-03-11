@@ -2,8 +2,11 @@ import Dexie, { Table } from "dexie";
 import { ICache, Stores } from ".";
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
 import { IBaseDocument } from "../models/baseDocument";
+import { INotification } from "../models/notification";
 
 export class DexieTables extends Dexie {
+    public notifications!: Table<INotification>;
+
     public collections!: Table<ICollection>;
     public songs!: Table<ISong>;
     public contributors!: Table<IContributor>;
@@ -36,13 +39,14 @@ export class DexieTables extends Dexie {
             lastUpdated: '++id',
             articles: '++id',
             publications: '++id',
+            notifications: '++id',
             config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
             stores[i] = '++id';
         });
 
-        this.version(2).stores(stores);
+        this.version(3).stores(stores);
     }
 }
 
