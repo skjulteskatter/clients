@@ -11,7 +11,6 @@ export abstract class ISearchResultGroup extends BaseObject {
     public contributors!: SearchResult[];
     public songs!: SearchResult[];
     public articles!: SearchResult[];
-    public articleTranslations!: SearchResult[];
 }
 
 export class SearchResultGroup extends ISearchResultGroup {
