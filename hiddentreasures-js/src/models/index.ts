@@ -8,3 +8,6 @@ export * from "./users";
 export * from "./publications";
 
 export * from "./notification";
+
+export * from "./searchQuery";
+export * from "./searchResultGroup";
