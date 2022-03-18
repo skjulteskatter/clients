@@ -1,6 +1,6 @@
 {
   "name": "hiddentreasures-js",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "A JavaScript client for SongTreasures API",
   "main": "build/",
   "types": "build/index.d.ts",
