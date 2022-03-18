@@ -29,7 +29,7 @@ export interface ILyricsService extends IService {
     list(collectionId: string, options: RetrieveLyricsOptions): Promise<Lyrics[]>
 }
 
-export class LyricsService {
+export class LyricsService implements ILyricsService {
     protected client;
     protected table;
     protected models: Lyrics[] | null = null;
