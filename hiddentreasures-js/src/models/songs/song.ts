@@ -12,8 +12,9 @@ export type SongReference = {
 
 export interface ISong extends IBaseDocument {
     collections: {
-        [id: string]: number;
-    };
+        collectionId: string,
+        number: number | null,
+    }[];
     type: SongType;
     available: boolean;
     title: string;
@@ -35,9 +36,10 @@ export interface ISong extends IBaseDocument {
 }
 
 export class Song extends BaseDocument<ISongService> implements ISong {
-    public collections: {
-        [id: string]: number;
-    } = {};
+    public collections!: {
+        collectionId: string;
+        number: number | null;
+    }[];
     public type!: SongType;
     public available!: boolean;
     public title!: string;

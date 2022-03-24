@@ -15,6 +15,6 @@ export class SongService extends BaseChildService<Song, ISong> {
     }
 
     protected parents(item: ISong): string[] {
-        return Object.keys(item.collections);
+        return item.collections.map(i => i.collectionId);
     }
 }
