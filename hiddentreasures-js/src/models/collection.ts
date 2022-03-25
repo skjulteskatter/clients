@@ -1,44 +1,27 @@
 import { ICollectionService } from "..";
-import BaseDocument, { IBaseDocument } from "./baseDocument";
+import BaseDocument from "./baseDocument";
+import { ISongCollectionOptions, SongCollectionOptions } from "./songs";
 
-export interface ICollection extends IBaseDocument {
-    priority: number;
-    type: "song" | "scripture" | "publication";
-    defaultType: "song" | "track" | "sheetmusic" | null;
-    defaultSort: string;
-    title: string;
-    keys: {
+export abstract class ICollection extends BaseDocument<ICollectionService> {
+    public priority!: number;
+    public type!: "song" | "scripture" | "publication";
+    public title!: string;
+    public description!: string;
+    public key!: string;
+    public keys!: {
         [key: string]: string;
     };
-    description: string;
-    icon: string;
-    image: string;
-    owned: boolean;
+    public icon!: string | null;
+    public image!: string | null;
+    public songOptions!: ISongCollectionOptions | null;
+    public owned!: boolean;
 }
 
-export class Collection extends BaseDocument<ICollectionService> implements ICollection {
-    public priority;
-    public type;
-    public defaultType;
-    public defaultSort;
-    public title;
-    public keys;
-    public description;
-    public icon;
-    public image;
-    public owned;
+export class Collection extends ICollection {
+    public override songOptions;
 
-    constructor(i: ICollection, service: ICollectionService) {
-        super(i, service);
-        this.priority = i.priority;
-        this.type = i.type;
-        this.defaultType = i.defaultType ?? null;
-        this.defaultSort = i.defaultSort ?? null;
-        this.title = i.title;
-        this.keys = i.keys;
-        this.description = i.description;
-        this.icon = i.icon;
-        this.image = i.image;
-        this.owned = i.owned ?? false;
+    constructor(i: ICollection, s: ICollectionService) {
+        super(i, s);
+        this.songOptions = i.songOptions ? new SongCollectionOptions(i.songOptions) : null;
     }
 }

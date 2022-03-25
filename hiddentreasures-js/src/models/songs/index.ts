@@ -3,3 +3,4 @@ export * from "./mediaFile";
 export * from "./participant";
 export * from "./sheet";
 export * from "./song";
+export * from "./songCollectionOptions";
