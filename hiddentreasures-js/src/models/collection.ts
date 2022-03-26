@@ -14,6 +14,7 @@ export abstract class ICollection extends BaseDocument {
     public image!: string | null;
     public songOptions!: ISongCollectionOptions | null;
     public owned!: boolean;
+    public enabled!: boolean;
 }
 
 export class Collection extends ICollection {

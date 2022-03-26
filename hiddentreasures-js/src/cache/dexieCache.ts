@@ -1,6 +1,7 @@
 import Dexie, { Table } from "dexie";
 import { ICache, Stores } from ".";
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
+import { IProduct } from "../models";
 import { IBaseDocument } from "../models/baseDocument";
 import { INotification } from "../models/notification";
 
@@ -27,6 +28,8 @@ export class DexieTables extends Dexie {
 
     public config!: Table<any>;
 
+    public products!: Table<IProduct>;
+
     constructor() {
         super("hiddentreasures");
         const stores: {
@@ -41,13 +44,14 @@ export class DexieTables extends Dexie {
             articles: '++id',
             publications: '++id',
             notifications: '++id',
+            products: '++id',
             config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
             stores[i] = '++id';
         });
 
-        this.version(3).stores(stores);
+        this.version(4).stores(stores);
     }
 }
 

@@ -1,4 +1,5 @@
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
+import { IProduct } from "../models";
 import { IBaseDocument } from "../models/baseDocument";
 import { INotification } from "../models/notification";
 
@@ -41,7 +42,7 @@ export interface Stores {
     collections: ICollection;
     songs: ISong;
     contributors: IContributor;
-    files: IMediaFile
+    files: IMediaFile;
     publications: IPublication;
     articles: IArticle;
     lyrics: ILyrics[];
@@ -52,6 +53,7 @@ export interface Stores {
     genres: IGenre;
     themes: ITheme;
     config: any;
+    products: IProduct;
 }
 
 export function getCache<S extends keyof Stores>(store: S): ICache<Stores[S]> {
