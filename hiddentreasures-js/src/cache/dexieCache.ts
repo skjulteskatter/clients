@@ -35,6 +35,7 @@ export class DexieTables extends Dexie {
             songs: '++id, parentId',
             files: '++id, parentId',
             lyrics: '++id, parentId',
+            collections: '++id',
             contributors: '++id',
             lastUpdated: '++id',
             articles: '++id',

@@ -26,6 +26,6 @@ export class Client extends BaseClient {
     }
 
     public async updateUser(user: IUser) {
-        //user
+        throw new Error("Cannot update user yet");
     }
 }
