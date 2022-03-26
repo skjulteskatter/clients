@@ -1,5 +1,5 @@
 import { ISongService } from "../..";
-import BaseDocument, { IBaseDocument } from "../baseDocument";
+import BaseDocument from "../baseDocument";
 import Participant, { IParticipant } from "./participant";
 
 export type SongType = "lyrics" | "track" | "sheetmusic";
@@ -10,35 +10,10 @@ export type SongReference = {
     description: string | null;
 }
 
-export interface ISong extends IBaseDocument {
-    collections: {
+export abstract class ISong extends BaseDocument<ISongService> {
+    public collections!: {
         collectionId: string,
         number: number | null,
-    }[];
-    type: SongType;
-    available: boolean;
-    title: string;
-    description: string | null;
-    originalKey: string | null;
-    hasLyrics: boolean;
-    hasChords: boolean | null;
-    yearWritten: number | null;
-    yearComposed: number | null;
-    defaultTempo: number | null;
-    image: string | null;
-    themeIds: string[];
-    categoryIds: string[];
-    genreIds: string[];
-    origins: SongReference[];
-    copyrights: SongReference[];
-    newMelodies: string[];
-    participants: IParticipant[];
-}
-
-export class Song extends BaseDocument<ISongService> implements ISong {
-    public collections!: {
-        collectionId: string;
-        number: number | null;
     }[];
     public type!: SongType;
     public available!: boolean;
@@ -50,6 +25,7 @@ export class Song extends BaseDocument<ISongService> implements ISong {
     public yearWritten!: number | null;
     public yearComposed!: number | null;
     public defaultTempo!: number | null;
+    public verses!: number | null;
     public image!: string | null;
     public themeIds!: string[];
     public categoryIds!: string[];
@@ -57,7 +33,11 @@ export class Song extends BaseDocument<ISongService> implements ISong {
     public origins!: SongReference[];
     public copyrights!: SongReference[];
     public newMelodies!: string[];
-    public participants;
+    public participants!: IParticipant[];
+}
+
+export class Song extends ISong {
+    public override participants;
 
     constructor(i: ISong, s: ISongService) {
         super(i, s);
