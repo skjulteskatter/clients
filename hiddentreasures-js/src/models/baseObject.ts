@@ -1,5 +1,5 @@
 export default abstract class BaseObject {
-    private assignProperties(target: any, source: any) {
+    private static assignProperties(target: any, source: any) {
         for (const [key, value] of Object.entries(source)) {
             if (typeof(target[key]) === "undefined") {
                 target[key] = value;
@@ -13,6 +13,6 @@ export default abstract class BaseObject {
     }
 
     constructor(i: any) {
-        this.assignProperties(this, i);
+        BaseObject.assignProperties(this, i);
     }
 }
