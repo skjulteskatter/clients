@@ -7,7 +7,7 @@ export class Client extends BaseClient {
     private _settings: Settings | null = null;
 
     public async getSettings(): Promise<Settings> {
-        return this._settings ??= new Settings(await this.get<ISettings>('Session/Settings'));
+        return this._settings ??= new Settings(await this.get<ISettings>('api/Session/Settings'));
     }
 
     public async setSettings(options: PatchOptions<ISettings>) {
@@ -20,7 +20,7 @@ export class Client extends BaseClient {
     private _user: User | null = null;
 
     public async getUser(): Promise<User> {
-        return this._user ??= new User(await this.get<IUser>('Session/User'));
+        return this._user ??= new User(await this.get<IUser>('api/Session/User'));
     }
 
     public async updateUser(user: IUser) {
