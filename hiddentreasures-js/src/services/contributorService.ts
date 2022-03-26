@@ -13,6 +13,6 @@ export class ContributorService extends BaseService<Contributor, IContributor> {
     }
 
     protected toModel(item: IContributor): Contributor {
-        return new Contributor(item, this);
+        return new Contributor(item);
     }
 }

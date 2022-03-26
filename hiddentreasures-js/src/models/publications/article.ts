@@ -1,8 +1,7 @@
-import { IArticleService } from "../../services/publications/articleService";
 import BaseDocument from "../baseDocument";
 import { ArticleContent, IArticleContent } from "./articleContent";
 
-export abstract class IArticle extends BaseDocument<IArticleService> {
+export abstract class IArticle extends BaseDocument {
     public publicationId!: string;
     public authorId!: string;
     public dateWritten!: string;
@@ -16,8 +15,8 @@ export abstract class IArticle extends BaseDocument<IArticleService> {
 export class Article extends IArticle {
     public override content?: ArticleContent;
 
-    constructor(i: IArticle, s: IArticleService) {
-        super(i, s);
+    constructor(i: IArticle) {
+        super(i);
         this.content = i.content ? new ArticleContent(i.content) : undefined;
     }
 }

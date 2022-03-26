@@ -1,4 +1,3 @@
-import { ISongService } from "../..";
 import BaseDocument from "../baseDocument";
 import Participant, { IParticipant } from "./participant";
 
@@ -10,7 +9,7 @@ export type SongReference = {
     description: string | null;
 }
 
-export abstract class ISong extends BaseDocument<ISongService> {
+export abstract class ISong extends BaseDocument {
     public collections!: {
         collectionId: string,
         number: number | null,
@@ -39,8 +38,8 @@ export abstract class ISong extends BaseDocument<ISongService> {
 export class Song extends ISong {
     public override participants;
 
-    constructor(i: ISong, s: ISongService) {
-        super(i, s);
+    constructor(i: ISong) {
+        super(i);
         this.participants = i.participants.map(i => new Participant(i));
     }
 }

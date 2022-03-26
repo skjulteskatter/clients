@@ -1,8 +1,7 @@
-import { ICollectionService } from "..";
 import BaseDocument from "./baseDocument";
 import { ISongCollectionOptions, SongCollectionOptions } from "./songs";
 
-export abstract class ICollection extends BaseDocument<ICollectionService> {
+export abstract class ICollection extends BaseDocument {
     public priority!: number;
     public type!: "song" | "scripture" | "publication";
     public title!: string;
@@ -20,8 +19,8 @@ export abstract class ICollection extends BaseDocument<ICollectionService> {
 export class Collection extends ICollection {
     public override songOptions;
 
-    constructor(i: ICollection, s: ICollectionService) {
-        super(i, s);
+    constructor(i: ICollection) {
+        super(i);
         this.songOptions = i.songOptions ? new SongCollectionOptions(i.songOptions) : null;
     }
 }

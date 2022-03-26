@@ -1,4 +1,3 @@
-import { IService } from "../services/baseService";
 import BaseObject from "./baseObject";
 
 export interface IBaseDocument {
@@ -6,15 +5,12 @@ export interface IBaseDocument {
     updatedAt: string;
 }
 
-export class BaseDocument<TService extends IService> extends BaseObject implements IBaseDocument {
+export class BaseDocument extends BaseObject implements IBaseDocument {
     public id!: string;
     public updatedAt!: string;
-
-    protected service;
     
-    constructor(i: IBaseDocument, service: TService) {
+    constructor(i: IBaseDocument) {
         super(i);
-        this.service = service;
     }
 }
 

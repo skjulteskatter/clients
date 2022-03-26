@@ -11,7 +11,7 @@ export class SongService extends BaseChildService<Song, ISong> {
     }
 
     protected toModel(item: ISong): Song {
-        return new Song(item, this);
+        return new Song(item);
     }
 
     protected parents(item: ISong): string[] {
