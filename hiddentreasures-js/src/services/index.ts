@@ -6,3 +6,4 @@ export * from "./publications";
 export * from "./notificationService";
 export * from "./searchService";
 export * from "./store";
+export * from "./users";
