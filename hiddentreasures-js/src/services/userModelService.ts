@@ -1,7 +1,7 @@
 import { ICache } from "../cache";
 import { Client } from "../client";
 import { UserModel } from "../models/users/userModel";
-import { BaseService, IBaseService } from "./baseService";
+import { BaseService, IBaseService, ListOptions } from "./baseService";
 
 export type ModelCreateOptions = {
     name: string;
@@ -34,6 +34,10 @@ export abstract class UserModelService<
     }
     protected httpDelete<T>(path = "") {
         return this.client.delete<T>(`api/${this.endpoint}${path ? "/" + path : ""}`);
+    }
+
+    public override async retrieve(options: ListOptions): Promise<T[]> {
+        return (await this.httpPost<TInterface[]>("List", options)).map(i => this.cacheModel(this.toModel(i)));
     }
 
     public async create(options: TCreateOptions): Promise<T> {

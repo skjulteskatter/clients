@@ -5,6 +5,7 @@ import { UserModel } from "./userModel";
 export abstract class ICustomCollection extends UserModel {
     public editorIds!: string[];
     public shareKey!: string;
+    public entryCount!: number;
     public entries!: ICustomCollectionEntry[] | null;
     public permissions!: Permissions;
 }
