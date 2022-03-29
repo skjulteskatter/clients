@@ -1,7 +1,7 @@
 import { ILyrics, Lyrics, LyricsFormat } from "../../models";
 import { Client } from "../../client";
-import { IService } from "../baseService";
 import { getCache } from "../../cache";
+import { IService } from "../baseService";
 
 export interface IRetrieveLyricsOptions {
     language?: string;

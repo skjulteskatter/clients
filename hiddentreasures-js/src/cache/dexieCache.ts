@@ -1,32 +1,8 @@
 import Dexie, { Table } from "dexie";
 import { ICache, Stores } from ".";
-import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
 import { IBaseDocument } from "../models/baseDocument";
-import { INotification } from "../models/notification";
 
 export class DexieTables extends Dexie {
-    public notifications!: Table<INotification>;
-
-    public collections!: Table<ICollection>;
-    public songs!: Table<ISong>;
-    public contributors!: Table<IContributor>;
-    public files!: Table<IMediaFile>;
-
-    public publications!: Table<IPublication>;
-    public articles!: Table<IArticle>;
-
-    public lyrics!: Table<ILyrics[]>;
-    public lastUpdated!: Table<Date>;
-
-    /** Items */
-    public categories!: Table<ICategory>;
-    public copyrights!: Table<ICopyright>;
-    public countries!: Table<ICountry>;
-    public genres!: Table<IGenre>;
-    public themes!: Table<ITheme>;
-
-    public config!: Table<any>;
-
     constructor() {
         super("hiddentreasures");
         const stores: {
@@ -40,6 +16,8 @@ export class DexieTables extends Dexie {
             articles: '++id',
             publications: '++id',
             notifications: '++id',
+            customCollections: '++id',
+            tags: '++id',
             config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
@@ -72,10 +50,14 @@ export class DexieCache<T extends IBaseDocument> implements ICache<T> {
     public async list() {
         return await this.table.toArray();
     }
+
+    public async delete(id: string) {
+        return await this.table.delete(id);
+    }
 }
 
 const dexieTables = new DexieTables();
 
 export function getDexieCache<S extends keyof Stores>(store: S): ICache<Stores[S]> {
-    return new DexieCache(dexieTables[store]);
+    return new DexieCache((dexieTables as any)[store as any]);
 }

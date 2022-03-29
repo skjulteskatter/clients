@@ -1,13 +1,13 @@
 import { Theme, ITheme } from "../../models";
 import { Client } from "../../client";
-import { BaseService, IBaseService } from "../baseService";
+import { BaseModelService, IBaseModelService } from "../baseModelService";
 import { getCache } from "../../cache";
 
-export interface IThemeService extends IBaseService<Theme> {
+export interface IThemeService extends IBaseModelService<Theme> {
 
 }
 
-export class ThemeService extends BaseService<Theme, ITheme> implements IThemeService {
+export class ThemeService extends BaseModelService<Theme, ITheme> implements IThemeService {
     constructor(client: Client) {
         super(client, "Themes", getCache("themes"));
     }

@@ -6,21 +6,12 @@ export interface IService {
     
 }
 
-export type ListOptions = {
-    itemIds?: string[];
-    limit?: number;
-    skip?: number;
-    orderBy?: string;
-    orderByDirection?: string;
-}
-
-export interface IBaseService<T, TListOptions extends ListOptions = ListOptions> extends IService {
-    retrieve(options: TListOptions): Promise<T[]>;
+export interface IBaseService<T> extends IService {
     list(): Promise<T[]>;
     get(id: string): Promise<T>;
 }
 
-export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ListOptions = ListOptions> implements IBaseService<T, TListOptions> {
+export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument> implements IBaseService<T> {
     protected endpoint;
     protected client;
     protected cache;
@@ -29,7 +20,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.client.get<T>(`api/${this.endpoint}${path ? "/" + path : ""}`);
     }
     protected httpPost<T>(path = "", content: any = undefined) {
-        return this.client.post<T>(`api/${this.endpoint}${path}`, content);
+        return this.client.post<T>(`api/${this.endpoint}${path ? "/" + path : ""}`, content);
     }
 
     constructor(client: Client, endpoint: string, cache: ICache<TInterface>) {
@@ -46,9 +37,33 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
     protected modelCache: {
         [key: string]: T;
     } = {};
-    
-    public async retrieve(options: TListOptions): Promise<T[]> {
-        return (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
+
+    private _willDelete: {
+        [key: string]: boolean;
+    } = {};
+    protected cacheModel(model: T) {
+        try {
+            return this.modelCache[model.id] ??= model;
+        } finally {
+            if (!this._willDelete[model.id]) {
+                this._willDelete[model.id] = true;
+                setTimeout(() => {
+                    this.removeFromcache(model.id);
+                }, 30000);
+            }
+        }
+    }
+    protected removeFromcache(id: string) {
+        delete this.modelCache[id];
+        delete this._willDelete[id];
+        this.cache.delete(id);
+    }
+
+    public async get(id: string) {
+        if (!this.modelCache[id]) {
+            this.cacheModel(this.toModel(await this.httpGet<TInterface>(id)));
+        }
+        return this.modelCache[id];
     }
 
     public async list() {
@@ -83,60 +98,5 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
             this.models = items.map(i => this.cacheModel(this.toModel(i)));
         }
         return this.models;
-    }
-
-    private _willDelete: {
-        [key: string]: boolean;
-    } = {};
-    protected cacheModel(model: T) {
-        try {
-            return this.modelCache[model.id] ??= model;
-        } finally {
-            if (!this._willDelete[model.id]) {
-                this._willDelete[model.id] = true;
-                setTimeout(() => {
-                    delete this.modelCache[model.id];
-                    delete this._willDelete[model.id];
-                }, 30000);
-            }
-        }
-    }
-
-    private static retrieving: {
-        [model: string]: boolean;
-    } = {};
-    private static retrieveModels: {
-        [model: string]: string[] | null;
-    } = {};
-    
-    protected async getOrSetModel(id: string) {
-        const getModel = async () => {
-            const retrieveModels = BaseService.retrieveModels[this.endpoint] ??= [];
-            retrieveModels.push(id);
-            await new Promise(r => setTimeout(r, 10));
-            if (retrieveModels !== null && !BaseService.retrieving[this.endpoint]) {
-                const itemIds = retrieveModels;
-                BaseService.retrieveModels[this.endpoint] = null;
-                BaseService.retrieving[this.endpoint] = true;
-                if (itemIds.length === 1) {
-                    this.cacheModel(this.toModel(await this.httpGet<TInterface>(id)));
-                } else {
-                    await this.retrieve({
-                        itemIds,
-                    } as TListOptions);
-                }
-                BaseService.retrieving[this.endpoint] = false;
-            } else {
-                while(BaseService.retrieving[this.endpoint]) {
-                    await new Promise(r => setTimeout(r, 10));
-                }
-            }
-            return this.modelCache[id];
-        };
-        return this.modelCache[id] ?? await getModel();
-    }
-
-    public async get(id: string) {
-        return await this.getOrSetModel(id);
     }
 }

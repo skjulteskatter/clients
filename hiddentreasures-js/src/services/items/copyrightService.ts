@@ -1,13 +1,13 @@
 import { Copyright, ICopyright } from "../../models";
 import { getCache } from "../../cache";
 import { Client } from "../../client";
-import { BaseService, IBaseService } from "../baseService";
+import { BaseModelService, IBaseModelService } from "../baseModelService";
 
-export interface ICopyrightService extends IBaseService<Copyright> {
+export interface ICopyrightService extends IBaseModelService<Copyright> {
 
 }
 
-export class CopyrightService extends BaseService<Copyright, ICopyright> implements ICopyrightService {
+export class CopyrightService extends BaseModelService<Copyright, ICopyright> implements ICopyrightService {
     constructor(client: Client) {
         super(client, "Copyrights", getCache("copyrights"));
     }

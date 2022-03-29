@@ -1,12 +1,14 @@
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
+import { ICustomCollection, ITag } from "../models";
 import { IBaseDocument } from "../models/baseDocument";
 import { INotification } from "../models/notification";
 
 export interface ICache<T extends IBaseDocument> {
-    set: (model: T, key?: string) => Promise<void>;
-    setAll: (models: T[]) => Promise<void>;
-    get: (id: string) => Promise<T | undefined>;
-    list: () => Promise<T[]>;
+    set(model: T, key?: string): Promise<void>;
+    setAll(models: T[]): Promise<void>;
+    get(id: string): Promise<T | undefined>;
+    list(): Promise<T[]>;
+    delete(id: string): Promise<void>;
 }
 
 export class MemoryCache<T extends IBaseDocument> implements ICache<T> {
@@ -34,14 +36,20 @@ export class MemoryCache<T extends IBaseDocument> implements ICache<T> {
     public async list() {
         return Object.values(this.models);
     }
+
+    public async delete(id: string) {
+        delete this.models[id];
+    }
 }
 
 export interface Stores {
     notifications: INotification;
     collections: ICollection;
+    customCollections: ICustomCollection;
+    tags: ITag;
     songs: ISong;
     contributors: IContributor;
-    files: IMediaFile
+    files: IMediaFile;
     publications: IPublication;
     articles: IArticle;
     lyrics: ILyrics[];

@@ -1,13 +1,13 @@
 import { Genre, IGenre } from "../../models";
 import { Client } from "../../client";
-import { BaseService, IBaseService } from "../baseService";
+import { BaseModelService, IBaseModelService } from "../baseModelService";
 import { getCache } from "../../cache";
 
-export interface IGenreService extends IBaseService<Genre> {
+export interface IGenreService extends IBaseModelService<Genre> {
 
 }
 
-export class GenreService extends BaseService<Genre, IGenre> implements IGenreService {
+export class GenreService extends BaseModelService<Genre, IGenre> implements IGenreService {
     constructor(client: Client) {
         super(client, "Genres", getCache("genres"));
     }

@@ -1,13 +1,13 @@
 import { Category, ICategory } from "../../models";
 import { getCache } from "../../cache";
 import { Client } from "../../client";
-import { BaseService, IBaseService } from "../baseService";
+import { BaseModelService, IBaseModelService } from "../baseModelService";
 
-export interface ICategoryService extends IBaseService<Category> {
+export interface ICategoryService extends IBaseModelService<Category> {
 
 }
 
-export class CategoryService extends BaseService<Category, ICategory> implements ICategoryService {
+export class CategoryService extends BaseModelService<Category, ICategory> implements ICategoryService {
     constructor(client: Client) {
         super(client, "Categories", getCache("categories"));
     }

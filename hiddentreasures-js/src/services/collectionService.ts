@@ -1,11 +1,11 @@
 import { Collection, ICollection } from "..";
 import { getCache } from "../cache";
 import { Client } from "../client";
-import { BaseService, IBaseService } from "./baseService";
+import { BaseModelService, IBaseModelService } from "./baseModelService";
 
-export interface ICollectionService extends IBaseService<Collection> {}
+export interface ICollectionService extends IBaseModelService<Collection> {}
 
-export class CollectionService extends BaseService<Collection, ICollection> implements ICollectionService {
+export class CollectionService extends BaseModelService<Collection, ICollection> implements ICollectionService {
     constructor(client: Client) {
         super(client, "Collections", getCache("collections"));
     }

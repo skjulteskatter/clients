@@ -1,16 +1,16 @@
 import { IBaseDocument } from "../models/baseDocument";
-import { BaseService, IBaseService, ListOptions } from "./baseService";
+import { BaseModelService, IBaseModelService, ListOptions } from "./baseModelService";
 
 export type ChildListOptions = ListOptions & {
     parentIds?: string[];
 }
 
-export interface IBaseChildService<T, TListOptions extends ChildListOptions = ChildListOptions> extends IBaseService<T, TListOptions> {
+export interface IBaseChildService<T, TListOptions extends ChildListOptions = ChildListOptions> extends IBaseModelService<T, TListOptions> {
     childrenOf(parentId: string): Promise<T[]>;
     retrieve(options: TListOptions): Promise<T[]>;
 }
 
-export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ChildListOptions = ChildListOptions> extends BaseService<T, TInterface, TListOptions> implements IBaseChildService<T, TListOptions> {
+export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ChildListOptions = ChildListOptions> extends BaseModelService<T, TInterface, TListOptions> implements IBaseChildService<T, TListOptions> {
     protected modelsByParent: {
         [parent: string]: T[];
     } = {};

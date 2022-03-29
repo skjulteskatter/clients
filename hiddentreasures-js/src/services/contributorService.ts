@@ -1,13 +1,13 @@
 import { Contributor, IContributor } from "..";
 import { getCache } from "../cache";
 import { Client } from "../client";
-import { BaseService, IBaseService } from "./baseService";
+import { BaseModelService, IBaseModelService } from "./baseModelService";
 
-export interface IContributorService extends IBaseService<Contributor> {
+export interface IContributorService extends IBaseModelService<Contributor> {
 
 }
 
-export class ContributorService extends BaseService<Contributor, IContributor> {
+export class ContributorService extends BaseModelService<Contributor, IContributor> {
     constructor(client: Client) {
         super(client, "Contributors", getCache("contributors"));
     }

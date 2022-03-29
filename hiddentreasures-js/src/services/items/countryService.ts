@@ -1,13 +1,13 @@
 import { Country, ICountry } from "../../models";
 import { getCache } from "../../cache";
 import { Client } from "../../client";
-import { BaseService, IBaseService } from "../baseService";
+import { BaseModelService, IBaseModelService } from "../baseModelService";
 
-export interface ICountryService extends IBaseService<Country> {
+export interface ICountryService extends IBaseModelService<Country> {
 
 }
 
-export class CountryService extends BaseService<Country, ICountry> implements ICountryService {
+export class CountryService extends BaseModelService<Country, ICountry> implements ICountryService {
     constructor(client: Client) {
         super(client, "Countries", getCache("countries"));
     }
