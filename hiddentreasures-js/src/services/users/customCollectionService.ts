@@ -51,12 +51,26 @@ export class CustomCollectionService extends UserModelService<CustomCollection, 
         return new CustomCollection(item);
     }
 
-    public async getEntries(id: string) {
-        return (await this.httpGet<ICustomCollectionEntry[]>(`${id}/Entries`)).map(i => new CustomCollectionEntry(i));
+    private _entryCache: {
+        [key: string]: CustomCollectionEntry[];
+    } = {};
+
+    public async getEntries(collectionId: string) {
+        if (!this._entryCache[collectionId]){
+            this._entryCache[collectionId] = (await this.httpGet<ICustomCollectionEntry[]>(`${collectionId}/Entries`)).map(i => new CustomCollectionEntry(i));
+            setTimeout(() => {
+                delete this._entryCache[collectionId];
+            }, 30000);
+        }
+        return this._entryCache[collectionId];
     }
 
-    public async updateEntries(id: string, options: CustomCollectionEntryUpdateOptions): Promise<CustomCollectionEntry[]> {
-        return (await this.httpPatch<ICustomCollectionEntry[]>(`${id}/Entries`, options)).map(i => new CustomCollectionEntry(i));
+    public async updateEntries(collectionId: string, options: CustomCollectionEntryUpdateOptions): Promise<CustomCollectionEntry[]> {
+        const items = (await this.httpPatch<ICustomCollectionEntry[]>(`${collectionId}/Entries`, options)).map(i => new CustomCollectionEntry(i));
+
+        delete this._entryCache[collectionId];
+
+        return items;
     }
 
     public async updateMultipleEntries(options: { [key: string]: CustomCollectionEntryUpdateOptions; }): Promise<{ [key: string]: CustomCollectionEntry[]; }> {
@@ -64,9 +78,9 @@ export class CustomCollectionService extends UserModelService<CustomCollection, 
             [key: string]: ICustomCollectionEntry[];
         }>("Entries", options))).reduce((a, b) => {
             a[b[0]] = b[1].map(i => new CustomCollectionEntry(i));
+            delete this._entryCache[b[0]];
             return a;
         }, {
-        
         } as {
             [key: string]: CustomCollectionEntry[];
         })
