@@ -11,3 +11,5 @@ export * from "./notification";
 
 export * from "./searchQuery";
 export * from "./searchResultGroup";
+
+export * from "./store";

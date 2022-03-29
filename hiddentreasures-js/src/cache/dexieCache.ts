@@ -11,6 +11,7 @@ export class DexieTables extends Dexie {
             songs: '++id, parentId',
             files: '++id, parentId',
             lyrics: '++id, parentId',
+            collections: '++id',
             contributors: '++id',
             lastUpdated: '++id',
             articles: '++id',
@@ -18,13 +19,14 @@ export class DexieTables extends Dexie {
             notifications: '++id',
             customCollections: '++id',
             tags: '++id',
+            products: '++id',
             config: null,
         };
         ["categories", "copyrights", "countries", "genres", "themes"].forEach(i => {
             stores[i] = '++id';
         });
 
-        this.version(3).stores(stores);
+        this.version(4).stores(stores);
     }
 }
 

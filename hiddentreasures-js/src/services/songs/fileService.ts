@@ -11,7 +11,7 @@ export class FileService extends BaseChildService<MediaFile, IMediaFile> impleme
     }
 
     protected toModel(item: IMediaFile): MediaFile {
-        return new MediaFile(item, this);
+        return new MediaFile(item);
     }
 
     protected parents(item: IMediaFile): string[] {

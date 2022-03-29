@@ -1,4 +1,3 @@
-import { IContributorService } from "..";
 import BaseDocument, { IBaseDocument } from "./baseDocument";
 
 export interface IContributor extends IBaseDocument {
@@ -11,7 +10,7 @@ export interface IContributor extends IBaseDocument {
     biography: string | null;
 }
 
-export class Contributor extends BaseDocument<IContributorService> implements IContributor {
+export class Contributor extends BaseDocument implements IContributor {
     public name;
     public birthYear;
     public subtitle;
@@ -19,8 +18,8 @@ export class Contributor extends BaseDocument<IContributorService> implements IC
     public image;
     public biography;
 
-    constructor(i: IContributor, s: IContributorService) {
-        super(i, s);
+    constructor(i: IContributor) {
+        super(i);
         this.name = i.name;
         this.birthYear = i.birthYear ?? null;
         this.subtitle = i.subtitle ?? null;

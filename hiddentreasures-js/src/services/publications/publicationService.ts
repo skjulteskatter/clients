@@ -11,7 +11,7 @@ export class PublicationService extends BaseChildService<Publication, IPublicati
     }
 
     protected toModel(item: IPublication): Publication {
-        return new Publication(item, this);
+        return new Publication(item);
     }
 
     protected parents(item: IPublication): string[] {

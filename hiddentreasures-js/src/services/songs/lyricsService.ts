@@ -46,7 +46,7 @@ export class LyricsService implements ILyricsService {
         let model = this.models?.find(i => i.songId === songId && i.language === options.language && i.format === options.format && i.transposition === options.transposition);
 
         if (!model) {
-            model = new Lyrics(await this.client.post<ILyrics>(`api/Songs/${songId}/Lyrics`, options), this)
+            model = new Lyrics(await this.client.post<ILyrics>(`api/Songs/${songId}/Lyrics`, options))
         }
 
         return model;

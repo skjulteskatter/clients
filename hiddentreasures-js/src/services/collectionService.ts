@@ -11,6 +11,6 @@ export class CollectionService extends BaseModelService<Collection, ICollection>
     }
 
     protected toModel(item: ICollection): Collection {
-        return new Collection(item, this);
+        return new Collection(item);
     }
 }

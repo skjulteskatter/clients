@@ -5,11 +5,14 @@ export interface IBaseItem extends IBaseDocument {
     name: string;
 }
 
-export class BaseItem<TService extends IService> extends BaseDocument<TService> implements IBaseItem {
+export class BaseItem<TService extends IService> extends BaseDocument implements IBaseItem {
     public name;
 
+    protected service;
+
     constructor(i: IBaseItem, s: TService) {
-        super(i, s);
+        super(i);
+        this.service = s;
         this.name = i.name;
     }
 }

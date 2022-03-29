@@ -26,10 +26,10 @@ export class NotificationService implements INotificationService {
     }
 
     async list(): Promise<Notification[]> {
-        return this.models ??= (await this.client.get<INotification[]>("api/Notifications")).map(i => new Notification(i, this));
+        return this.models ??= (await this.client.get<INotification[]>("api/Notifications")).map(i => new Notification(i));
     }
     async get(id: string): Promise<INotification> {
-        return this.models?.find(m => m.id === id) ?? new Notification(await this.client.get<INotification>("api/Notifications/" + id), this);
+        return this.models?.find(m => m.id === id) ?? new Notification(await this.client.get<INotification>("api/Notifications/" + id));
     }
     async update(id: string, status: NotificationStatus): Promise<void> {
         await this.client.patch<string>("api/Notifications/" + id, status);

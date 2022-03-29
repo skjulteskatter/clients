@@ -15,7 +15,7 @@ export class ArticleService extends BaseChildService<Article, IArticle, ArticleL
     }
 
     protected toModel(item: IArticle): Article {
-        return new Article(item, this);
+        return new Article(item);
     }
 
     protected parents(item: IArticle): string[] {
