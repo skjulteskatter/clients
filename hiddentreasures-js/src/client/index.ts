@@ -1,5 +1,5 @@
 import { PatchOptions } from "../models/patchOptions";
-import { ISession, ISettings, Session, Settings, IUser, User } from "../models";
+import { ISession, ISettings, Session, Settings, IUser, User, Subscription, ISubscription } from "../models";
 import BaseClient from "./baseClient";
 
 export class Client extends BaseClient {
@@ -27,5 +27,10 @@ export class Client extends BaseClient {
 
     public async updateUser(user: IUser) {
         throw new Error("Cannot update user yet: " + user.id);
+    }
+
+    private _subscriptions: Subscription[] | null = null;
+    public async getSubscriptions(): Promise<Subscription[]> {
+        return this._subscriptions ??= (await this.get<ISubscription[]>('api/Session/Subscriptions')).map(i => new Subscription(i));
     }
 }

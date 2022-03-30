@@ -4,6 +4,7 @@ import { IPrice, Price } from "./price";
 export abstract class IProduct extends BaseDocument {
     public collectionIds!: string[];
     public prices!: IPrice[];
+    public owned!: boolean;
 }
 
 export class Product extends IProduct {
