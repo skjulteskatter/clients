@@ -24,4 +24,8 @@ export class Collection extends ICollection {
         super(i);
         this.songOptions = i.songOptions ? new SongCollectionOptions(i.songOptions) : null;
     }
+
+    public containsKey(key: string) {
+        return this.id === key || this.key === key || Object.values(this.keys).includes(key);
+    }
 }

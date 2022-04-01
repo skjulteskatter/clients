@@ -42,6 +42,10 @@ export class Song extends ISong {
         super(i);
         this.participants = i.participants.map(i => new Participant(i));
     }
+
+    public getNumber(collection: string) {
+        return this.collections.find(i => i.collectionId === collection)?.number ?? null;
+    }
 }
 
 export default Song;
