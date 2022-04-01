@@ -16,6 +16,7 @@ export abstract class ISong extends BaseDocument {
     }[];
     public type!: SongType;
     public available!: boolean;
+    public enabled!: boolean;
     public title!: string;
     public description!: string | null;
     public originalKey!: string | null;
