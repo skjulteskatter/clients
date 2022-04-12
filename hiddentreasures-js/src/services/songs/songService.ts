@@ -17,4 +17,8 @@ export class SongService extends BaseChildService<Song, ISong> {
     protected parents(item: ISong): string[] {
         return item.collections.map(i => i.collectionId);
     }
+
+    public async find(collectionId: string, number: number) {
+        return (await this.childrenOf(collectionId)).find(i => i.getNumber(collectionId) === number) ?? null;
+    }
 }

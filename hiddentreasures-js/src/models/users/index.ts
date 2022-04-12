@@ -8,3 +8,5 @@ export * from "./customCollectionEntry";
 export * from "./tag";
 export * from "./session";
 export * from "./subscription";
+
+export * from "./role";

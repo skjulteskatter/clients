@@ -1,14 +1,22 @@
-import { SongService, Client, ContributorService, CollectionService, NotificationService, SearchService } from "../build";
+import { SongService, Client, ContributorService, CollectionService, NotificationService, SearchService, Role } from "../build";
+import { writeFileSync } from "fs";
 
 const token = process.argv[2];
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 
 const client = new Client({
     onError: (r) => console.log(r),
-    basePath: "https://localhost:44301/",
+    basePath: "https://api.songtreasures.app/",
     debug: true,
     getToken: async() => token,
 });
+
+
+const r1 = new Role("administrator");
+
+const r2 = new Role("editor");
+
+console.log(r2.fulfills(r1.value));
 
 const songService = new SongService(client);
 
@@ -20,7 +28,9 @@ const contributorService = new ContributorService(client);
     "97e9f5ce-6ef5-401b-aa6e-521f3e07d06b",
     "34e7aa28-18fd-32d0-94e1-5296bd73e6a3"
 ].forEach(async (id) => {
-    console.log((await contributorService.get(id)).name);
+    const contributor = await contributorService.get(id);
+
+    console.log(contributor);
 });
 
 [
@@ -31,6 +41,7 @@ const contributorService = new ContributorService(client);
     console.log((await songService.get(id)).title);
 });
 
+
 const collectionService = new CollectionService(client);
 
 [
@@ -38,8 +49,27 @@ const collectionService = new CollectionService(client);
     "6229579a-66d2-4a72-aadf-1997e866d108",
     "d26b6088-f544-4359-bc4c-e14ddc7f2dcb"
 ].forEach(async (id) => {
-    console.log((await collectionService.get(id)).title);
+    console.log((await collectionService.get(id)));
 })
+
+// collectionService.list().then(collections => {
+//     songService.list().then(l => {
+//         let csv = "id,collection,number,title";
+
+//         for (const song of l) {
+
+
+//             csv += [
+//                 song.id,
+//                 ...song.collections.map(i => [collections.find(c => c.id === i.collectionId).key, i.number])[0] ?? [null, null],
+//                 song.title,
+//             ].map(i => JSON.stringify(i)).join(",") + "\n"
+//         }
+
+//         writeFileSync("../export.csv", csv);
+//     });
+// })
+
 
 const notificationService = new NotificationService(client);
 

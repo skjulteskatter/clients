@@ -13,4 +13,8 @@ export class CollectionService extends BaseModelService<Collection, ICollection>
     protected toModel(item: ICollection): Collection {
         return new Collection(item);
     }
+
+    public async find(key: string) {
+        return (await this.list()).find(i => i.containsKey(key)) ?? null;
+    }
 }

@@ -6,6 +6,7 @@ export abstract class ICollection extends BaseDocument {
     public type!: "song" | "scripture" | "publication";
     public title!: string;
     public description!: string;
+    public header!: string | null;
     public key!: string;
     public keys!: {
         [key: string]: string;
