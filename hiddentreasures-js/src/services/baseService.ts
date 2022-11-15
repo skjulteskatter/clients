@@ -17,7 +17,7 @@ export type ListOptions = {
 export interface IBaseService<T, TListOptions extends ListOptions = ListOptions> extends IService {
     list(): Promise<T[]>;
     get(id: string): Promise<T>;
-    retrieve(options: TListOptions): Promise<T[]>;
+    retrieve(options: TListOptions, language?: string): Promise<T[]>;
 }
 
 export abstract class BaseService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ListOptions = ListOptions> implements IBaseService<T, TListOptions> {
@@ -28,8 +28,8 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
     protected httpGet<T>(path = "", params?: {[key: string]: number | string}) {
         return this.client.get<T>(`api/${this.endpoint}${path ? "/" + path : ""}`, params);
     }
-    protected httpPost<T>(path = "", content?: any) {
-        return this.client.post<T>(`api/${this.endpoint}${path ? "/" + path : ""}`, content);
+    protected httpPost<T>(path = "", content?: any, params?: {[key: string]: number | string}) {
+        return this.client.post<T>(`api/${this.endpoint}${path ? "/" + path : ""}`, content, params);
     }
 
     constructor(client: Client, endpoint: string, cache: ICache<TInterface>) {
@@ -141,7 +141,7 @@ export abstract class BaseService<T extends TInterface, TInterface extends IBase
         return this.models;
     }
     
-    public async retrieve(options: TListOptions): Promise<T[]> {
-        return (await this.httpPost<TInterface[]>("", options)).map(i => this.cacheModel(this.toModel(i)));
+    public async retrieve(options: TListOptions, language?: string): Promise<T[]> {
+        return (await this.httpPost<TInterface[]>("", options, language ? {language} : undefined)).map(i => this.cacheModel(this.toModel(i)));
     }
 }

@@ -72,8 +72,15 @@ export default class BaseClient {
     public async post<T, Y = unknown>(
         path: string,
         content?: Y,
+        params?: {
+            [param: string]: string | number | null;
+        },
         options?: object,
     ): Promise<T> {
+        if (params) {
+            path += "?" + Object.entries(params).filter(i => i[1] !== null).map(i => `${i[0]}=${i[1]}`).join("&");
+        }
+
         const result = await this.apifetch(
             path,
             Object.assign(

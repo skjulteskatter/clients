@@ -7,7 +7,7 @@ export type ChildListOptions = ListOptions & {
 
 export interface IBaseChildService<T, TListOptions extends ChildListOptions = ChildListOptions> extends IBaseModelService<T, TListOptions> {
     childrenOf(parentId: string): Promise<T[]>;
-    retrieve(options: TListOptions): Promise<T[]>;
+    retrieve(options: TListOptions, language?: string): Promise<T[]>;
 }
 
 export abstract class BaseChildService<T extends TInterface, TInterface extends IBaseDocument, TListOptions extends ChildListOptions = ChildListOptions> extends BaseModelService<T, TInterface, TListOptions> implements IBaseChildService<T, TListOptions> {
