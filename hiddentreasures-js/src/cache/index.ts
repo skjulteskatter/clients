@@ -64,12 +64,12 @@ export interface Stores {
     products: IProduct;
 }
 
-export function getCache<S extends keyof Stores>(store: S): ICache<Stores[S]> {
-    if (typeof indexedDB !== 'undefined' && indexedDB) {
-        const { getDexieCache } = require('./dexieCache')
-        return getDexieCache(store);
-    } else {
-        console.warn("IndexedDB is not supported. Cache functionality will be limited");
+export function getCache<S extends keyof Stores>(_: S): ICache<Stores[S]> {
+    // if (typeof indexedDB !== 'undefined' && indexedDB) {
+    //     const { getDexieCache } = require('./dexieCache')
+    //     return getDexieCache(store);
+    // } else {
+    //     console.warn("IndexedDB is not supported. Cache functionality will be limited");
         return new MemoryCache();
-    }
+    // }
 }
