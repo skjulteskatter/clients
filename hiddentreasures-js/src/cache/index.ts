@@ -1,5 +1,5 @@
 import { IArticle, ICategory, ICollection, IContributor, ICopyright, ICountry, IGenre, ILyrics, IMediaFile, IPublication, ISong, ITheme } from "..";
-import { ICustomCollection, ITag } from "../models";
+import { ICustomCollection, IOrigin, ITag } from "../models";
 import { IProduct } from "../models";
 import { IBaseDocument } from "../models/baseDocument";
 import { INotification } from "../models/notification";
@@ -62,6 +62,7 @@ export interface Stores {
     themes: ITheme;
     config: any;
     products: IProduct;
+    origins: IOrigin;
 }
 
 export function getCache<S extends keyof Stores>(_: S): ICache<Stores[S]> {
