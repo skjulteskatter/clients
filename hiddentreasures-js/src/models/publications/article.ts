@@ -4,6 +4,7 @@ import { ArticleContent, IArticleContent } from "./articleContent";
 export abstract class IArticle extends BaseDocument {
     public publicationId!: string;
     public authorId!: string;
+    public sourceId!: string | null;
     public dateWritten!: string;
     public number!: number;
     public icon!: string;
